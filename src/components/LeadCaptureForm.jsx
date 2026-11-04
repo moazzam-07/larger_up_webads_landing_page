@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, CheckCircle2, ShieldCheck, Lock, Sparkles, Building2, User } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function LeadCaptureForm() {
@@ -8,8 +8,6 @@ export default function LeadCaptureForm() {
     email: '',
     phone: '',
     role: 'studio_owner',
-    city: 'Mumbai',
-    minimumBudget: '₹25L - ₹50L',
     notes: '',
   });
 
@@ -26,7 +24,7 @@ export default function LeadCaptureForm() {
     setStatus('submitting');
     setErrorMessage('');
 
-    // Basic Indian phone validation
+    // Phone validation
     const cleanPhone = formData.phone.replace(/[^0-9]/g, '');
     if (cleanPhone.length < 10) {
       setStatus('error');
@@ -35,14 +33,12 @@ export default function LeadCaptureForm() {
     }
 
     try {
-      // Simulate / forward payload to endpoint (e.g. Resend or Webhook)
       const payload = {
         ...formData,
         submittedAt: new Date().toISOString(),
-        source: 'LargerUp Tier-1 Interior WebAds Funnel',
+        source: 'LargerUp Landing Page',
       };
 
-      // If user provides a custom webhook URL in localStorage or env, we send to it
       const webhookUrl = localStorage.getItem('LARGERUP_LEAD_WEBHOOK');
       if (webhookUrl) {
         await fetch(webhookUrl, {
@@ -51,17 +47,15 @@ export default function LeadCaptureForm() {
           body: JSON.stringify(payload),
         });
       } else {
-        // Simulated instantaneous submission
         await new Promise((resolve) => setTimeout(resolve, 800));
       }
 
       setStatus('success');
-      // Fire celebration confetti!
       confetti({
-        particleCount: 80,
+        particleCount: 70,
         spread: 60,
         origin: { y: 0.65 },
-        colors: ['#141414', '#0066ff', '#f3f3f3'],
+        colors: ['#141414', '#707070', '#f3f3f3'],
       });
     } catch (err) {
       console.error('Submission error:', err);
@@ -71,48 +65,38 @@ export default function LeadCaptureForm() {
   };
 
   return (
-    <section id="apply-form" className="py-20 md:py-28 px-4 sm:px-6 max-w-4xl mx-auto border-t border-hairline">
+    <section id="apply-form" className="py-16 md:py-24 px-4 sm:px-6 max-w-3xl mx-auto border-t border-hairline">
       {/* Header */}
-      <div className="text-center max-w-2xl mx-auto mb-12">
+      <div className="text-center max-w-xl mx-auto mb-10">
         <div className="inline-flex items-center gap-2 bg-canvas-soft border border-hairline px-3 py-1 rounded-full text-xs font-semibold text-ink uppercase tracking-wider mb-4">
-          <Lock className="w-3.5 h-3.5" />
-          <span>Confidential Territory Audit</span>
+          <span>Get Started</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-bold text-ink tracking-tight mb-4 leading-tight">
-          Lock in your city's exclusive interior pipeline.
+        <h2 className="text-3xl sm:text-4xl font-bold text-ink tracking-tight mb-3 leading-tight">
+          Book your free consultation.
         </h2>
-        <p className="text-base sm:text-lg text-muted font-light leading-relaxed">
-          We onboard a strict maximum of 3 interior studios per metro to protect local exclusivity. Submit your studio details below to verify territory availability.
+        <p className="text-sm sm:text-base text-muted font-light leading-relaxed">
+          Tell us about your interior studio, and we’ll reach out on WhatsApp to discuss how to build your client pipeline.
         </p>
       </div>
 
-      {/* Mobbin Card Surface */}
-      <div className="bg-canvas border border-hairline rounded-3xl p-6 sm:p-12 relative overflow-hidden">
+      {/* Form Surface */}
+      <div className="bg-canvas border border-hairline rounded-3xl p-6 sm:p-10 relative overflow-hidden">
         {status === 'success' ? (
-          <div className="text-center py-12 flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-canvas-soft border border-hairline flex items-center justify-center text-ink mb-6">
-              <CheckCircle2 className="w-8 h-8 text-ink" />
+          <div className="text-center py-10 flex flex-col items-center">
+            <div className="w-14 h-14 rounded-full bg-canvas-soft border border-hairline flex items-center justify-center text-ink mb-5">
+              <CheckCircle2 className="w-7 h-7 text-ink" />
             </div>
-            <span className="text-xs font-bold uppercase text-accent tracking-wider mb-2">Application Received</span>
-            <h3 className="text-2xl sm:text-3xl font-bold text-ink mb-3">
-              Territory Audit Reserved For {formData.fullName}.
+            <h3 className="text-2xl font-bold text-ink mb-2">
+              Thank You, {formData.fullName}.
             </h3>
             <p className="text-muted text-sm max-w-md mx-auto mb-6 leading-relaxed">
-              Our lead strategist will review your studio's portfolio for {formData.city} and WhatsApp you within 4 business hours to schedule your exclusive territory briefing.
+              We received your details. Our team will message you on WhatsApp ({formData.phone}) within 4 business hours to schedule your consultation call.
             </p>
-            <div className="bg-canvas-soft border border-hairline rounded-2xl p-4 text-xs text-muted max-w-md w-full text-left">
-              <p className="font-semibold text-ink mb-1">What happens next:</p>
-              <ul className="space-y-1 list-disc list-inside">
-                <li>We verify zero micro-market conflict in {formData.city}.</li>
-                <li>We prepare a custom 14-day pipeline projection model.</li>
-                <li>Direct WhatsApp invite sent to {formData.phone}.</li>
-              </ul>
-            </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Row 1: Name & Email */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Row 1: Full Name & Work Email */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-ink mb-2">
                   Full Name *
@@ -123,7 +107,7 @@ export default function LeadCaptureForm() {
                   required
                   value={formData.fullName}
                   onChange={handleChange}
-                  placeholder="e.g. Ar. Sameer Kapoor"
+                  placeholder="e.g. Ar. Sameer Roy"
                   className="w-full bg-field text-ink placeholder:text-muted/60 text-sm rounded-2xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all"
                 />
               </div>
@@ -144,8 +128,8 @@ export default function LeadCaptureForm() {
               </div>
             </div>
 
-            {/* Row 2: Phone/WhatsApp & Role/Status */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {/* Row 2: WhatsApp Number & Role */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-ink mb-2">
                   WhatsApp / Phone Number *
@@ -171,66 +155,24 @@ export default function LeadCaptureForm() {
                   onChange={handleChange}
                   className="w-full bg-field text-ink text-sm rounded-2xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all cursor-pointer"
                 >
-                  <option value="studio_owner">Studio Owner / Principal Architect (Physical Office)</option>
-                  <option value="independent_designer">Independent Interior Designer / Freelancer</option>
-                  <option value="turnkey_contractor">Turnkey Design-and-Build Firm</option>
-                  <option value="partner_lead">Design Partner / Studio Lead</option>
+                  <option value="studio_owner">Studio Owner / Principal Architect (Physical Studio)</option>
+                  <option value="freelancer">Independent Interior Designer / Freelancer</option>
+                  <option value="turnkey_firm">Turnkey Design-and-Build Firm</option>
                 </select>
               </div>
             </div>
 
-            {/* Row 3: Target Metro & Minimum Project Ticket Size */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-ink mb-2">
-                  Primary Operating Metro *
-                </label>
-                <select
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  className="w-full bg-field text-ink text-sm rounded-2xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all cursor-pointer"
-                >
-                  <option value="Mumbai">Mumbai & MMR (Bandra, South Mumbai, Worli, Powai)</option>
-                  <option value="Delhi NCR">Delhi NCR (South Delhi, Gurugram Golf Course, Noida)</option>
-                  <option value="Bangalore">Bangalore (Indiranagar, Whitefield, Lavelle Rd, Sarjapur)</option>
-                  <option value="Hyderabad">Hyderabad (Jubilee Hills, Banjara Hills, Gachibowli)</option>
-                  <option value="Pune">Pune (Kalyani Nagar, Koregaon Park, Baner)</option>
-                  <option value="Chennai">Chennai (Adyar, Poes Garden, ECR)</option>
-                  <option value="Kolkata">Kolkata (Alipore, Salt Lake, New Town)</option>
-                  <option value="Other">Other Emerging Tier-1 City</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-ink mb-2">
-                  Minimum Project Ticket Size You Accept *
-                </label>
-                <select
-                  name="minimumBudget"
-                  value={formData.minimumBudget}
-                  onChange={handleChange}
-                  className="w-full bg-field text-ink text-sm rounded-2xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all cursor-pointer"
-                >
-                  <option value="₹15L - ₹25L">₹15 Lakhs – ₹25 Lakhs (Standard 3BHK)</option>
-                  <option value="₹25L - ₹50L">₹25 Lakhs – ₹50 Lakhs (Premium 3BHK/4BHK)</option>
-                  <option value="₹50L - ₹1Cr">₹50 Lakhs – ₹1 Crore (Luxury Residence / Duplex)</option>
-                  <option value="₹1Cr+">₹1 Crore+ (Bespoke Villa / Penthouse Architecture)</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Optional Studio Note */}
+            {/* Row 3: Optional Website / Instagram */}
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-ink mb-2">
-                Studio Website / Instagram Profile (Optional)
+                Studio Website or Instagram Profile (Optional)
               </label>
               <input
                 type="text"
                 name="notes"
                 value={formData.notes}
                 onChange={handleChange}
-                placeholder="e.g. instagram.com/your_design_studio or portfolio link"
+                placeholder="instagram.com/your_design_studio or portfolio link"
                 className="w-full bg-field text-ink placeholder:text-muted/60 text-sm rounded-2xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all"
               />
             </div>
@@ -241,7 +183,7 @@ export default function LeadCaptureForm() {
               </div>
             )}
 
-            {/* Submit Button (Mobbin button-primary pill) */}
+            {/* Single Submit Button */}
             <div className="pt-2">
               <button
                 type="submit"
@@ -251,24 +193,20 @@ export default function LeadCaptureForm() {
                 {status === 'submitting' ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>Checking Territory Availability...</span>
+                    <span>Submitting...</span>
                   </div>
                 ) : (
                   <>
-                    <span>Claim Your Exclusive Territory Audit</span>
-                    <ArrowUpRight className="w-5 h-5 text-white/80" />
+                    <span>Book Free Consultation</span>
+                    <ArrowUpRight className="w-4 h-4 text-white/80" />
                   </>
                 )}
               </button>
             </div>
 
-            {/* Trust Footer */}
-            <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-muted pt-4 border-t border-hairline-soft gap-2">
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-ink" />
-                <span>100% Strict NDA & Non-Compete Guarantee per territory</span>
-              </div>
-              <span>No spam. No cold calling. Direct partner review.</span>
+            <div className="flex items-center justify-center gap-1.5 text-xs text-muted pt-3 border-t border-hairline-soft">
+              <ShieldCheck className="w-4 h-4 text-ink" />
+              <span>Your contact details are strictly kept private and confidential.</span>
             </div>
           </form>
         )}
@@ -276,4 +214,3 @@ export default function LeadCaptureForm() {
     </section>
   );
 }
-

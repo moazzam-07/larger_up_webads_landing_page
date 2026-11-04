@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import CityMarquee from './components/CityMarquee';
 import VideoTestimonials, { videoCaseStudies } from './components/VideoTestimonials';
 import ComparisonTable from './components/ComparisonTable';
 import SystemMechanism from './components/SystemMechanism';
-import RoiCalculator from './components/RoiCalculator';
 import ReviewGrid from './components/ReviewGrid';
 import LeadCaptureForm from './components/LeadCaptureForm';
 import FaqSection from './components/FaqSection';
 import Footer from './components/Footer';
 import VideoModal from './components/VideoModal';
+import { MessageCircle } from 'lucide-react';
 
 export default function App() {
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -19,7 +18,6 @@ export default function App() {
     const el = document.getElementById('apply-form');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
-      // Add subtle temporary ring effect to highlight the form
       const formBox = el.querySelector('form');
       if (formBox) {
         formBox.classList.add('ring-2', 'ring-ink');
@@ -30,68 +28,60 @@ export default function App() {
     }
   };
 
-  const handleOpenVideoModal = (videoId) => {
-    if (videoId === 'system-overview') {
-      // Default to the first case study or system overview
-      setSelectedVideo(videoCaseStudies[0]);
-    } else {
-      const found = videoCaseStudies.find((v) => v.id === videoId);
-      if (found) setSelectedVideo(found);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-canvas text-ink flex flex-col font-sans selection:bg-ink selection:text-white">
+    <div className="min-h-screen bg-canvas text-ink flex flex-col font-sans selection:bg-ink selection:text-white relative">
       {/* Floating Stadium Navigation Pill */}
       <Navbar onOpenForm={handleOpenForm} />
 
-      {/* Main Content Layout */}
+      {/* Main Content Sections */}
       <main className="flex-1 w-full">
-        {/* High Converting Hero Section */}
-        <Hero
-          onOpenForm={handleOpenForm}
-          onOpenVideoModal={handleOpenVideoModal}
-        />
+        {/* Clean, High-Converting Hero Section */}
+        <Hero onOpenForm={handleOpenForm} />
 
-        {/* Tier-1 Developments & Pincodes Marquee */}
-        <CityMarquee />
-
-        {/* The 3 Video Placeholders & Case Studies */}
+        {/* 3 Clean Video Case Study Placeholders */}
         <VideoTestimonials
           onSelectVideo={(video) => setSelectedVideo(video)}
           onOpenForm={handleOpenForm}
         />
 
-        {/* Hormozi Contrast: Old Way vs LargerUp Acquisition Engine */}
+        {/* The Old Way vs The LargerUp Way (Top 3 Core Distinctions) */}
         <ComparisonTable onOpenForm={handleOpenForm} />
 
-        {/* The 3-Step Proprietary Mechanism */}
-        <SystemMechanism onOpenForm={handleOpenForm} />
+        {/* 3-Step Simple Mechanism */}
+        <SystemMechanism />
 
-        {/* Interactive Hormozi ROI Math & Pipeline Calculator */}
-        <RoiCalculator onOpenForm={handleOpenForm} />
-
-        {/* Verified Studio Proof & Reviews */}
+        {/* Authentic Studio Reviews (Kolkata & Metro Studios) */}
         <ReviewGrid />
 
-        {/* Lead Capture Form (Positioned strictly right before Q&A as requested) */}
+        {/* Lead Capture Form (Positioned strictly right before FAQs) */}
         <LeadCaptureForm />
 
-        {/* Top 5 Critical Interior Designer FAQs */}
+        {/* Top 5 Essential Interior Designer FAQs */}
         <FaqSection />
       </main>
 
-      {/* Polarity-Inverted Minimalist Mobbin Footer */}
+      {/* Minimalist Inverted Footer */}
       <Footer onOpenForm={handleOpenForm} />
 
-      {/* Interactive Video Breakdown Modal */}
+      {/* Video Modal Player */}
       <VideoModal
         isOpen={!!selectedVideo}
         videoData={selectedVideo}
         onClose={() => setSelectedVideo(null)}
         onOpenForm={handleOpenForm}
       />
+
+      {/* Fixed WhatsApp Quick Action Floating Pill (Minimalist Mobbin Style) */}
+      <a
+        href="https://wa.me/919876543210?text=Hi%20LargerUp,%20I%20am%20an%20interior%20designer%20interested%20in%20client%20acquisition."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-40 bg-ink hover:bg-ink-soft text-white text-xs font-semibold px-4 py-3 rounded-full border border-white/10 shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
+        title="Chat with LargerUp on WhatsApp"
+      >
+        <MessageCircle className="w-4 h-4 text-white" />
+        <span className="hidden sm:inline">Chat on WhatsApp</span>
+      </a>
     </div>
   );
 }
-
