@@ -55,11 +55,11 @@ export default function FaqSection() {
               >
                 <span className="leading-snug pr-2">{faq.question}</span>
                 <div
-                  className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white border border-hairline flex items-center justify-center shrink-0 transition-transform duration-300 ${
-                    isOpen ? 'rotate-180 bg-ink text-white border-ink' : 'text-ink'
+                  className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white border border-hairline flex items-center justify-center shrink-0 text-ink transition-transform duration-300 ${
+                    isOpen ? 'rotate-180 border-ink' : ''
                   }`}
                 >
-                  <ChevronDown className="w-3.5 h-3.5" />
+                  <ChevronDown className="w-3.5 h-3.5 text-ink" />
                 </div>
               </button>
 
