@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import BrandSlider from './components/BrandSlider';
 import PortfolioCreations from './components/PortfolioCreations';
 import VideoTestimonials from './components/VideoTestimonials';
 import ComparisonTable from './components/ComparisonTable';
@@ -39,11 +38,8 @@ export default function App() {
 
       {/* Main Content Sections */}
       <main className="flex-1 w-full overflow-x-hidden">
-        {/* Clean, High-Converting Hero Section (hero-01 pattern) */}
+        {/* Clean, High-Converting Hero Section */}
         <Hero onOpenForm={handleOpenForm} />
-
-        {/* 21st.dev hero-01 Infinite Brand Slider */}
-        <BrandSlider />
 
         {/* Brand New: Creations / Built Websites Portfolio (Direct click to live sites) */}
         <PortfolioCreations />

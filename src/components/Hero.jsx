@@ -4,40 +4,6 @@ import { ArrowUpRight } from 'lucide-react';
 export default function Hero({ onOpenForm }) {
   return (
     <section className="pt-24 pb-10 sm:pt-36 sm:pb-14 md:pt-40 md:pb-16 px-4 sm:px-6 max-w-4xl mx-auto text-center flex flex-col items-center">
-      {/* 21st.dev hero-01 style Trust Social Proof Bar */}
-      <div className="inline-flex items-center gap-3 bg-canvas-soft border border-hairline px-3.5 py-1.5 rounded-full mb-6 sm:mb-8 shadow-2xs">
-        <div className="flex -space-x-2 overflow-hidden">
-          <img
-            className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover"
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80"
-            alt="Interior Designer"
-          />
-          <img
-            className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover"
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&h=80&q=80"
-            alt="Principal Architect"
-          />
-          <img
-            className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover"
-            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=80&h=80&q=80"
-            alt="Studio Founder"
-          />
-          <img
-            className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover"
-            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&h=80&q=80"
-            alt="Design Partner"
-          />
-        </div>
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-ink">
-          <div className="flex items-center text-amber-500">
-            {'★'.repeat(5)}
-          </div>
-          <span className="text-[11px] sm:text-xs font-medium text-muted">
-            <strong className="text-ink font-semibold">4.9/5</strong> from 30+ studios in Kolkata
-          </span>
-        </div>
-      </div>
-
       {/* Bold, Responsive Headline */}
       <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-ink tracking-tight leading-[1.1] max-w-3xl mb-4 sm:mb-6">
         Get high-ticket interior clients every month.
