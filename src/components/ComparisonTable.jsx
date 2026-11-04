@@ -37,8 +37,7 @@ export default function ComparisonTable({ onOpenForm }) {
             <div>
               <div className="flex items-center justify-between pb-3 border-b border-hairline-soft mb-5 sm:mb-6">
                 <div>
-                  <span className="text-[11px] sm:text-xs font-semibold uppercase text-muted tracking-wider">The Frustrating Reality</span>
-                  <h3 className="text-lg sm:text-xl font-bold text-ink mt-0.5">The Old Way</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-ink">The Old Way</h3>
                 </div>
                 <div className="w-7 h-7 rounded-full bg-field flex items-center justify-center text-muted shrink-0">
                   <XCircle className="w-4 h-4" />
@@ -68,8 +67,7 @@ export default function ComparisonTable({ onOpenForm }) {
             <div>
               <div className="flex items-center justify-between pb-3 border-b border-hairline-soft mb-5 sm:mb-6">
                 <div>
-                  <span className="text-[11px] sm:text-xs font-semibold uppercase text-ink tracking-wider">Dedicated Engine</span>
-                  <h3 className="text-lg sm:text-xl font-bold text-ink mt-0.5">The LargerUp Way</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-ink">The LargerUp Way</h3>
                 </div>
                 <div className="w-7 h-7 rounded-full bg-ink text-white flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-4 h-4" />

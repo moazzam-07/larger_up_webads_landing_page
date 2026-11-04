@@ -13,15 +13,12 @@ export default function Footer({ onOpenForm }) {
         {/* Top Bar */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 sm:pb-12 border-b border-white/10">
           <div>
-            <div className="flex items-center gap-2.5 mb-2 sm:mb-3">
+            <div className="flex items-center gap-2.5">
               <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white text-ink flex items-center justify-center p-1.5 squircle shadow-sm">
                 <LargerUpLogo className="w-full h-full text-ink" />
               </div>
               <span className="text-lg sm:text-xl font-bold tracking-tight">LargerUp</span>
             </div>
-            <p className="text-white/60 text-xs sm:text-sm max-w-sm font-light leading-relaxed">
-              Client acquisition systems built specifically for interior design studios and architects.
-            </p>
           </div>
 
           <div className="flex items-center gap-2.5 w-full sm:w-auto">
