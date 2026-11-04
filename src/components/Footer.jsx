@@ -28,7 +28,7 @@ export default function Footer({ onOpenForm }) {
               onClick={onOpenForm}
               className="flex-1 sm:flex-none bg-white hover:bg-neutral-200 text-ink text-xs sm:text-sm font-semibold px-5 py-3 rounded-full transition-all inline-flex items-center justify-center gap-1.5 active:scale-95 text-center"
             >
-              <span>Book Free Consultation</span>
+              <span>Free Consultation</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-ink" />
             </button>
             <button
@@ -45,6 +45,7 @@ export default function Footer({ onOpenForm }) {
         {/* Links & Inquiries */}
         <div className="py-6 sm:py-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-white/10 text-xs text-white/60 font-light">
           <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <a href="#creations" className="hover:text-white transition-colors">Creations</a>
             <a href="#case-studies" className="hover:text-white transition-colors">Case Studies</a>
             <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
             <a href="#comparison" className="hover:text-white transition-colors">Why Us</a>
@@ -54,8 +55,8 @@ export default function Footer({ onOpenForm }) {
 
           <div>
             <span>Email inquiries: </span>
-            <a href="mailto:partners@largerup.com" className="text-white hover:underline font-medium">
-              partners@largerup.com
+            <a href="mailto:thelargerup@gmail.com" className="text-white hover:underline font-medium">
+              thelargerup@gmail.com
             </a>
           </div>
         </div>

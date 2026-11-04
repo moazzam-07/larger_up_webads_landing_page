@@ -3,19 +3,19 @@ import { XCircle, CheckCircle2, ArrowUpRight } from 'lucide-react';
 
 const coreComparisons = [
   {
-    painPoint: 'Shared Lead Portals (Justdial / IndiaMART)',
+    painPoint: 'Shared Lead Portals',
     oldWay: '1 lead sold to 8–10 contractors simultaneously. Instant race to the bottom on price.',
-    largerUp: '100% exclusive to your studio. Zero competition or shared leads.',
+    largerUp: '100% exclusive leads dedicated strictly to your studio. Zero competition or bidding wars.',
   },
   {
-    painPoint: 'Unqualified Tire-Kickers & Window Shoppers',
+    painPoint: 'Unqualified Inquiries',
     oldWay: 'Wasting 30+ hours on site visits and free 3D models for clients with unrealistic tiny budgets.',
-    largerUp: 'Pre-qualification filter ensures only homeowners with approved budgets can book calls.',
+    largerUp: 'Pre-screened budgets. Only homeowners with verified ₹25L+ project scope can book calls.',
   },
   {
-    painPoint: 'Unpredictable Word-of-Mouth Pipeline',
+    painPoint: 'Unpredictable Referrals',
     oldWay: 'Feast-or-famine cycles. Great quarters followed by stressful dry spells with zero control.',
-    largerUp: 'Predictable client pipeline installed directly into your calendar every single month.',
+    largerUp: 'Predictable booked consultations synced directly into your design calendar every month.',
   },
 ];
 
@@ -24,9 +24,6 @@ export default function ComparisonTable({ onOpenForm }) {
     <section id="comparison" className="py-12 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto border-t border-hairline">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-        <div className="inline-flex items-center gap-2 bg-canvas-soft border border-hairline px-3 py-1 rounded-full text-xs font-semibold text-ink uppercase tracking-wider mb-3.5">
-          <span>Why LargerUp</span>
-        </div>
         <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight mb-2.5 sm:mb-3 leading-tight">
           Why traditional lead channels fail interior studios.
         </h2>
@@ -100,7 +97,7 @@ export default function ComparisonTable({ onOpenForm }) {
                 onClick={onOpenForm}
                 className="w-full bg-ink hover:bg-ink-soft text-white text-xs sm:text-sm font-semibold py-3 sm:py-3.5 px-5 rounded-full transition-all inline-flex items-center justify-center gap-2 active:scale-95"
               >
-                <span>Book Free Consultation</span>
+                <span>Free Consultation</span>
                 <ArrowUpRight className="w-4 h-4 text-white/80" />
               </button>
             </div>

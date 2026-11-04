@@ -11,7 +11,7 @@ const steps = [
   {
     number: '02',
     title: 'Pre-Screening Budgets & Floor Plans',
-    description: 'Homeowners complete a short qualification questionnaire where they submit their property location, handover date, and project budget.',
+    description: 'Homeowners complete a qualification filter and assessment where they submit their property location, handover timeline, and project budget.',
     icon: Filter,
   },
   {
@@ -27,9 +27,6 @@ export default function SystemMechanism() {
     <section id="how-it-works" className="py-12 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto border-t border-hairline">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-        <div className="inline-flex items-center gap-2 bg-canvas-soft border border-hairline px-3 py-1 rounded-full text-xs font-semibold text-ink uppercase tracking-wider mb-3.5">
-          <span>How It Works</span>
-        </div>
         <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight mb-2.5 sm:mb-3 leading-tight">
           How we bring qualified interior clients in 14 days.
         </h2>

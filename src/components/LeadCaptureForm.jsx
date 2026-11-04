@@ -68,14 +68,11 @@ export default function LeadCaptureForm() {
     <section id="apply-form" className="py-12 sm:py-20 px-4 sm:px-6 max-w-3xl mx-auto border-t border-hairline">
       {/* Header */}
       <div className="text-center max-w-xl mx-auto mb-8 sm:mb-10">
-        <div className="inline-flex items-center gap-2 bg-canvas-soft border border-hairline px-3 py-1 rounded-full text-xs font-semibold text-ink uppercase tracking-wider mb-3.5">
-          <span>Get Started</span>
-        </div>
         <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight mb-2.5 sm:mb-3 leading-tight">
           Book your free consultation.
         </h2>
         <p className="text-xs sm:text-base text-muted font-light leading-relaxed">
-          Tell us about your interior studio, and we’ll reach out on WhatsApp to discuss how to build your client pipeline.
+          Tell us about your interior studio, we will reach out and help build your client pipeline.
         </p>
       </div>
 
@@ -147,7 +144,7 @@ export default function LeadCaptureForm() {
 
               <div>
                 <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
-                  Studio Owner or Freelancer? *
+                  Who are you? *
                 </label>
                 <select
                   name="role"
@@ -183,7 +180,7 @@ export default function LeadCaptureForm() {
               </div>
             )}
 
-            {/* Single Submit Button */}
+            {/* Single Submit Button: "Book Free Consultation" */}
             <div className="pt-2">
               <button
                 type="submit"
