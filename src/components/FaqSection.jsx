@@ -25,7 +25,7 @@ const faqs = [
 ];
 
 export default function FaqSection() {
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState(-1);
 
   const toggleFaq = (index) => {
     setOpenIndex(openIndex === index ? -1 : index);
@@ -35,15 +35,9 @@ export default function FaqSection() {
     <section id="faq" className="py-12 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto border-t border-hairline">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-        <div className="inline-flex items-center gap-2 bg-canvas-soft border border-hairline px-3 py-1 rounded-full text-xs font-semibold text-ink uppercase tracking-wider mb-3.5">
-          <span>FAQ</span>
-        </div>
-        <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight mb-2.5 sm:mb-3 leading-tight">
+        <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight leading-tight">
           Frequently asked questions.
         </h2>
-        <p className="text-xs sm:text-base text-muted font-light leading-relaxed">
-          Common questions interior designers ask before partnering with LargerUp.
-        </p>
       </div>
 
       {/* Accordion Rows */}

@@ -64,11 +64,11 @@ export default function Navbar({ onOpenForm }) {
           <div className="flex items-center gap-2 sm:gap-2.5">
             {/* Real WhatsApp SVG Logo */}
             <a
-              href="https://wa.me/919876543210?text=Hi%20LargerUp,%20I%20am%20an%20interior%20designer%20interested%20in%20client%20acquisition."
+              href="https://wa.me/917980817657?text=Hi%20LargerUp%20team,%20I%20came%20from%20your%20landing%20page.%20I%20want%20to%20get%20website%20and%20leads."
               target="_blank"
               rel="noopener noreferrer"
               className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white border border-hairline hover:border-ink flex items-center justify-center text-ink transition-colors group"
-              title="Chat on WhatsApp"
+              title="Chat on WhatsApp (+91 79808 17657)"
               aria-label="Chat on WhatsApp"
             >
               <svg

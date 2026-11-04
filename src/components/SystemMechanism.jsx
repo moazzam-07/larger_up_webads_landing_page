@@ -27,12 +27,9 @@ export default function SystemMechanism() {
     <section id="how-it-works" className="py-12 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto border-t border-hairline">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-        <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight mb-2.5 sm:mb-3 leading-tight">
+        <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight leading-tight">
           How we bring qualified interior clients in 14 days.
         </h2>
-        <p className="text-xs sm:text-base text-muted font-light leading-relaxed">
-          A clear, straightforward system designed to consistently bring serious homeowners to your studio.
-        </p>
       </div>
 
       {/* 3 Step Cards */}

@@ -24,12 +24,9 @@ export default function ComparisonTable({ onOpenForm }) {
     <section id="comparison" className="py-12 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto border-t border-hairline">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-        <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight mb-2.5 sm:mb-3 leading-tight">
+        <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight leading-tight">
           Why traditional lead channels fail interior studios.
         </h2>
-        <p className="text-xs sm:text-base text-muted font-light leading-relaxed">
-          The difference between competing on price versus commanding high-ticket projects comes down to how clients find you.
-        </p>
       </div>
 
       {/* 2-Column Comparison Grid */}

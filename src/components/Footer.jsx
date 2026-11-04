@@ -64,7 +64,7 @@ export default function Footer({ onOpenForm }) {
 
         {/* Bottom Legal */}
         <div className="pt-5 sm:pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] sm:text-xs text-white/40 font-light gap-2.5">
-          <p>© {new Date().getFullYear()} LargerUp Technologies. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} LargerUp. All rights reserved.</p>
           <div className="flex items-center gap-3">
             <span className="hover:text-white/60 cursor-pointer">Privacy Policy</span>
             <span>•</span>
