@@ -44,18 +44,10 @@ export default function PortfolioCreations() {
   return (
     <section id="creations" className="py-12 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto border-t border-hairline">
       {/* Clean, High-End Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8 sm:mb-12">
-        <div>
-          <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-muted block mb-2">
-            Selected Work
-          </span>
-          <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-black text-ink tracking-tight uppercase leading-none font-sans">
-            CREATIONS
-          </h2>
-        </div>
-        <p className="text-xs sm:text-sm text-muted font-light max-w-sm sm:text-right leading-relaxed">
-          Client acquisition engines & luxury digital experiences built for interior studios in Kolkata.
-        </p>
+      <div className="mb-8 sm:mb-12">
+        <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-black text-ink tracking-tight uppercase leading-none font-sans">
+          CREATIONS
+        </h2>
       </div>
 
       {/* 2-Column Responsive Grid of Built Portfolio Websites (Direct link on click - No popup) */}
@@ -90,29 +82,14 @@ export default function PortfolioCreations() {
             </div>
 
             {/* Content Details */}
-            <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between bg-canvas">
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <h3 className="text-base sm:text-lg font-bold text-ink tracking-tight group-hover:text-ink-soft transition-colors flex items-center gap-1.5">
-                    <span>{project.name}</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-muted opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </h3>
-                  <span className="text-xs text-muted font-medium">
-                    {project.location}
-                  </span>
-                </div>
-                <p className="text-xs sm:text-sm text-muted font-light leading-relaxed line-clamp-2">
-                  {project.scope}
-                </p>
-              </div>
-
-              {/* Bottom Specs & Direct Action Link */}
-              <div className="pt-3.5 mt-3.5 border-t border-hairline-soft flex items-center justify-between text-xs">
-                <span className="text-muted text-[11px] sm:text-xs font-light">
-                  {project.category}
-                </span>
-                <span className="font-semibold text-ink group-hover:underline inline-flex items-center gap-0.5">
-                  Open website ↗
+            <div className="p-4 sm:p-5 bg-canvas">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base sm:text-lg font-bold text-ink tracking-tight group-hover:text-ink-soft transition-colors flex items-center gap-1.5">
+                  <span>{project.name}</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-muted opacity-0 group-hover:opacity-100 transition-opacity" />
+                </h3>
+                <span className="text-xs text-muted font-medium">
+                  {project.location}
                 </span>
               </div>
             </div>
