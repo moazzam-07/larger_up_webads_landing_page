@@ -61,16 +61,6 @@ export default function VideoTestimonials({ onSelectVideo, onOpenForm }) {
             {/* Subtle Grid Accent Pattern */}
             <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
 
-            {/* Top Bar Overlay */}
-            <div className="relative z-10 flex items-center justify-between">
-              <span className="text-[10px] sm:text-[11px] font-semibold text-white/90 bg-white/10 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-                Case Study
-              </span>
-              <span className="text-[10px] sm:text-[11px] font-mono text-white/80 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-                {item.duration}
-              </span>
-            </div>
-
             {/* Center Play Button Overlay */}
             <div className="relative z-10 self-center my-auto">
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white text-ink flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -78,14 +68,11 @@ export default function VideoTestimonials({ onSelectVideo, onOpenForm }) {
               </div>
             </div>
 
-            {/* Bottom Overlay with Studio Name & Location */}
+            {/* Bottom Overlay with Studio Name */}
             <div className="relative z-10 text-left pt-2">
               <h3 className="text-white text-base sm:text-lg font-bold tracking-tight leading-snug">
                 {item.studio}
               </h3>
-              <p className="text-white/70 text-xs mt-0.5 font-light">
-                {item.speaker} • {item.location}
-              </p>
             </div>
           </div>
         ))}

@@ -26,7 +26,7 @@ export default function Navbar({ onOpenForm }) {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-3 sm:px-4 pt-2.5 sm:pt-4 transition-all duration-300">
         <nav
-          className={`w-full max-w-5xl bg-canvas-soft/95 backdrop-blur-md rounded-full px-3.5 py-2 sm:px-5 sm:py-3 flex items-center justify-between border border-hairline transition-all duration-300 ${
+          className={`w-full max-w-5xl bg-canvas-soft/95 backdrop-blur-md rounded-full px-3.5 py-2 sm:px-5 sm:py-3 flex items-center justify-between border border-hairline transition-all duration-300 animate-blur-in delay-75 ${
             scrolled ? 'shadow-sm' : ''
           }`}
         >
