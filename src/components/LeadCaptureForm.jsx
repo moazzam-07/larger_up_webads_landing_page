@@ -93,10 +93,10 @@ export default function LeadCaptureForm() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
             {/* Row 1: Full Name & Work Email */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               <div>
-                <label className="block text-base sm:text-lg font-bold uppercase tracking-wide text-ink mb-2">
-                  Full Name *
+                <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
+                  Full Name
                 </label>
                 <input
                   type="text"
@@ -105,13 +105,13 @@ export default function LeadCaptureForm() {
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="Ar. Sameer Roy"
-                  className="w-full bg-field text-ink placeholder:text-muted/40 placeholder:text-xs text-sm font-normal rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-ink transition-all"
+                  className="w-full bg-field text-ink placeholder:text-muted/40 placeholder:text-xs text-sm sm:text-base rounded-xl px-3.5 sm:px-4 py-2.5 sm:py-3 outline-none focus:ring-2 focus:ring-ink transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-base sm:text-lg font-bold uppercase tracking-wide text-ink mb-2">
-                  Work Email *
+                <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
+                  Work Email
                 </label>
                 <input
                   type="email"
@@ -120,16 +120,16 @@ export default function LeadCaptureForm() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="sameer@yourstudio.com"
-                  className="w-full bg-field text-ink placeholder:text-muted/40 placeholder:text-xs text-sm font-normal rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-ink transition-all"
+                  className="w-full bg-field text-ink placeholder:text-muted/40 placeholder:text-xs text-sm sm:text-base rounded-xl px-3.5 sm:px-4 py-2.5 sm:py-3 outline-none focus:ring-2 focus:ring-ink transition-all"
                 />
               </div>
             </div>
 
             {/* Row 2: WhatsApp Number & Role */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               <div>
-                <label className="block text-base sm:text-lg font-bold uppercase tracking-wide text-ink mb-2">
-                  WhatsApp / Phone Number *
+                <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
+                  WhatsApp / Phone Number
                 </label>
                 <input
                   type="tel"
@@ -138,19 +138,19 @@ export default function LeadCaptureForm() {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+91 98765 43210"
-                  className="w-full bg-field text-ink placeholder:text-muted/40 placeholder:text-xs text-sm font-normal rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-ink transition-all"
+                  className="w-full bg-field text-ink placeholder:text-muted/40 placeholder:text-xs text-sm sm:text-base rounded-xl px-3.5 sm:px-4 py-2.5 sm:py-3 outline-none focus:ring-2 focus:ring-ink transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-base sm:text-lg font-bold uppercase tracking-wide text-ink mb-2">
-                  Who are you? *
+                <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
+                  Who are you?
                 </label>
                 <select
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="w-full bg-field text-ink text-sm font-normal rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-ink transition-all cursor-pointer"
+                  className="w-full bg-field text-ink text-sm sm:text-base rounded-xl px-3.5 sm:px-4 py-2.5 sm:py-3 outline-none focus:ring-2 focus:ring-ink transition-all cursor-pointer"
                 >
                   <option value="studio_owner">Studio Owner</option>
                   <option value="freelancer">Freelancer</option>
@@ -161,7 +161,7 @@ export default function LeadCaptureForm() {
 
             {/* Row 3: Optional Website / Instagram */}
             <div>
-              <label className="block text-base sm:text-lg font-bold uppercase tracking-wide text-ink mb-2">
+              <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
                 Studio Website / Instagram (Optional)
               </label>
               <input
@@ -170,7 +170,7 @@ export default function LeadCaptureForm() {
                 value={formData.notes}
                 onChange={handleChange}
                 placeholder="yourstudio.com or instagram"
-                className="w-full bg-field text-ink placeholder:text-muted/40 placeholder:text-xs text-sm font-normal rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-ink transition-all"
+                className="w-full bg-field text-ink placeholder:text-muted/40 placeholder:text-xs text-sm sm:text-base rounded-xl px-3.5 sm:px-4 py-2.5 sm:py-3 outline-none focus:ring-2 focus:ring-ink transition-all"
               />
             </div>
 
