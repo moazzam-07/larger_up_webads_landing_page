@@ -1,65 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Calendar, MessageSquare, CheckCircle2 } from 'lucide-react';
+import LargerUpLogo from './LargerUpLogo';
 
-const leftNotifications = [
+const leftAppleNotifications = [
   {
-    type: 'Lead Closed',
-    badge: '₹48L Mandate',
-    title: 'Wizspace Interior',
-    desc: '4 BHK Turnkey Penthouse • Alipore',
+    id: 1,
+    app: 'LARGERUP',
+    time: 'now',
+    title: 'New Lead Assigned',
+    message: '4 BHK Villa in Alipore • ₹55L budget',
+  },
+  {
+    id: 2,
+    app: 'CALENDAR',
+    time: 'now',
+    title: 'Consultation Booked',
+    message: 'Discovery Meeting • Tomorrow 4:30 PM',
+  },
+  {
+    id: 3,
+    app: 'LARGERUP',
     time: '2m ago',
+    title: 'Lead Pre-Qualified',
+    message: 'Verified ₹40L+ scope • Handover in 60 days',
   },
   {
-    type: 'Meeting Booked',
-    badge: 'Calendar Synced',
-    title: 'DA Interiors',
-    desc: 'Discovery Visit • Ballygunge Circular',
-    time: '5m ago',
-  },
-  {
-    type: 'New Pre-Qualified Lead',
-    badge: 'Verified ₹60L+',
-    title: 'Luxury Villa Mandate',
-    desc: 'Handover timelines confirmed',
-    time: '11m ago',
-  },
-  {
-    type: 'Pipeline Growth',
-    badge: '+₹1.4Cr Added',
-    title: 'Deco Perfect',
-    desc: '3 Consultations scheduled this week',
-    time: 'Just now',
+    id: 4,
+    app: 'MESSAGES',
+    time: '4m ago',
+    title: 'Site Visit Confirmed',
+    message: 'Homeowner confirmed design consultation',
   },
 ];
 
-const rightNotifications = [
+const rightAppleNotifications = [
   {
-    type: 'Consultation Scheduled',
-    badge: 'Today 4:30 PM',
-    title: 'LUXHOME Pvt. Ltd.',
-    desc: 'Architectural duplex conversion',
-    time: '4m ago',
+    id: 1,
+    app: 'CALENDAR',
+    time: 'now',
+    title: 'Design Consultation Synced',
+    message: 'Added directly to your design calendar',
   },
   {
-    type: 'Lead Closed',
-    badge: '₹35L Mandate',
-    title: 'Atelier Muse Design',
-    desc: 'Turnkey interior execution confirmed',
-    time: '8m ago',
+    id: 2,
+    app: 'LARGERUP',
+    time: 'now',
+    title: 'Turnkey Mandate Closed',
+    message: '₹48L residential contract confirmed',
   },
   {
-    type: 'Exclusive Lead',
-    badge: 'Zero Competitors',
-    title: 'High-Ticket Inquiry',
-    desc: 'Direct booking • No shared bidding',
-    time: '19m ago',
+    id: 3,
+    app: 'LARGERUP',
+    time: '1m ago',
+    title: '100% Exclusive Lead',
+    message: 'Private mandate • Zero shared bidding',
   },
   {
-    type: 'Site Visit Confirmed',
-    badge: 'Pre-Screened Budget',
-    title: 'Studio Veda Interiors',
-    desc: 'Villa project scope approved',
-    time: '28m ago',
+    id: 4,
+    app: 'MESSAGES',
+    time: '3m ago',
+    title: 'New Consultation Request',
+    message: 'Penthouse Renovation • ₹65L budget',
   },
 ];
 
@@ -68,18 +69,18 @@ export default function Hero({ onOpenForm }) {
   const [rightIndex, setRightIndex] = useState(0);
 
   useEffect(() => {
-    // Cycle left notifications every 3.8s
+    // Cycle left notifications every 3.6s
     const leftInterval = setInterval(() => {
-      setLeftIndex((prev) => (prev + 1) % leftNotifications.length);
-    }, 3800);
+      setLeftIndex((prev) => (prev + 1) % leftAppleNotifications.length);
+    }, 3600);
 
-    // Stagger right notifications by 1.9s, then cycle every 4.1s
+    // Stagger right notifications by 1.8s, then cycle every 3.9s
     let rightInterval;
     const timeout = setTimeout(() => {
       rightInterval = setInterval(() => {
-        setRightIndex((prev) => (prev + 1) % rightNotifications.length);
-      }, 4100);
-    }, 1900);
+        setRightIndex((prev) => (prev + 1) % rightAppleNotifications.length);
+      }, 3900);
+    }, 1800);
 
     return () => {
       clearInterval(leftInterval);
@@ -88,54 +89,75 @@ export default function Hero({ onOpenForm }) {
     };
   }, []);
 
-  return (
-    <section className="min-h-[100dvh] w-full flex flex-col items-center justify-center relative px-3 sm:px-6 pt-20 pb-16 sm:pt-24 sm:pb-20 text-center max-w-[1700px] mx-auto overflow-hidden">
-      {/* Mobile Live Notification Pill (Centrally Positioned Above Headline) */}
-      <div
-        key={`mobile-${leftIndex}`}
-        className="lg:hidden mb-6 sm:mb-8 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-canvas-soft/90 backdrop-blur-md border border-hairline shadow-sm text-xs text-ink animate-card-flip max-w-[90vw]"
-      >
-        <span className="relative flex h-2 w-2 shrink-0">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-        <span className="font-bold text-ink shrink-0">{leftNotifications[leftIndex].type}:</span>
-        <span className="text-muted font-light truncate">{leftNotifications[leftIndex].desc}</span>
+  const renderAppIcon = (app) => {
+    if (app === 'CALENDAR') {
+      return (
+        <div className="w-8 h-8 rounded-xl bg-ink text-white p-1.5 flex items-center justify-center shrink-0 shadow-sm">
+          <Calendar className="w-4 h-4 text-white" />
+        </div>
+      );
+    }
+    if (app === 'MESSAGES') {
+      return (
+        <div className="w-8 h-8 rounded-xl bg-ink text-white p-1.5 flex items-center justify-center shrink-0 shadow-sm">
+          <MessageSquare className="w-4 h-4 text-white" />
+        </div>
+      );
+    }
+    return (
+      <div className="w-8 h-8 rounded-xl bg-ink text-white p-1.5 flex items-center justify-center shrink-0 shadow-sm">
+        <LargerUpLogo className="w-full h-full text-white" />
       </div>
+    );
+  };
 
-      {/* Left Peripheral Floating Flip Card (Desktop) */}
-      <div className="hidden lg:flex absolute left-3 sm:left-5 xl:left-8 2xl:left-14 top-[54%] -translate-y-1/2 z-0 pointer-events-none select-none">
-        <div
-          key={`left-${leftIndex}`}
-          className="w-60 xl:w-72 bg-white/95 backdrop-blur-xl border border-hairline rounded-2xl p-4 shadow-[0_16px_40px_rgba(0,0,0,0.08)] text-left animate-card-flip pointer-events-auto transition-transform hover:scale-[1.02]"
-        >
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <div className="flex items-center gap-1.5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-muted">
-                {leftNotifications[leftIndex].type}
-              </span>
-            </div>
-            <span className="text-[10px] font-mono text-muted/60">
-              {leftNotifications[leftIndex].time}
+  return (
+    <section className="min-h-[100dvh] w-full flex flex-col items-center justify-center relative px-4 sm:px-6 pt-20 pb-16 sm:pt-24 sm:pb-20 text-center max-w-[1700px] mx-auto overflow-hidden">
+      {/* Mobile/Tablet Apple Notification Banner (Centered Above Headline) */}
+      <div
+        key={`apple-mobile-${leftIndex}`}
+        className="xl:hidden mb-6 sm:mb-8 inline-flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-white/90 backdrop-blur-xl border border-black/[0.08] shadow-sm text-left animate-apple-flip max-w-[92vw]"
+      >
+        <div className="w-6 h-6 rounded-lg bg-ink text-white p-1 flex items-center justify-center shrink-0 shadow-sm">
+          <LargerUpLogo className="w-full h-full text-white" />
+        </div>
+        <div className="min-w-0 pr-1">
+          <div className="flex items-center gap-2 leading-none">
+            <span className="text-[9px] font-bold uppercase tracking-wider text-muted">
+              {leftAppleNotifications[leftIndex].app}
+            </span>
+            <span className="text-[9px] text-muted/60">
+              {leftAppleNotifications[leftIndex].time}
             </span>
           </div>
-
-          <p className="text-sm font-bold text-ink tracking-tight mb-0.5">
-            {leftNotifications[leftIndex].title}
+          <p className="text-xs font-bold text-ink leading-tight truncate mt-0.5">
+            {leftAppleNotifications[leftIndex].title}: <span className="font-normal text-muted">{leftAppleNotifications[leftIndex].message}</span>
           </p>
-          <p className="text-xs text-muted font-light leading-relaxed mb-3">
-            {leftNotifications[leftIndex].desc}
-          </p>
+        </div>
+      </div>
 
-          <div className="flex items-center justify-between pt-2 border-t border-hairline-soft/80 text-[10px]">
-            <span className="font-semibold text-ink bg-canvas-soft px-2 py-0.5 rounded-full border border-hairline-soft">
-              {leftNotifications[leftIndex].badge}
-            </span>
-            <span className="text-muted/60 font-light">Verified Engine</span>
+      {/* Left Peripheral Apple Push Notification (Desktop) */}
+      <div className="hidden xl:flex absolute left-4 2xl:left-12 top-[52%] -translate-y-1/2 z-0 pointer-events-none select-none">
+        <div
+          key={`apple-left-${leftIndex}`}
+          className="w-[270px] bg-white/85 backdrop-blur-2xl border border-black/[0.08] rounded-[20px] p-3 shadow-[0_12px_36px_rgba(0,0,0,0.08)] flex items-start gap-2.5 text-left animate-apple-flip pointer-events-auto transition-transform hover:scale-[1.02]"
+        >
+          {renderAppIcon(leftAppleNotifications[leftIndex].app)}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between gap-1 leading-none mb-1">
+              <span className="text-[10px] font-bold text-muted uppercase tracking-wider">
+                {leftAppleNotifications[leftIndex].app}
+              </span>
+              <span className="text-[10px] text-muted/60 font-normal">
+                {leftAppleNotifications[leftIndex].time}
+              </span>
+            </div>
+            <p className="text-xs font-bold text-ink leading-snug tracking-tight truncate">
+              {leftAppleNotifications[leftIndex].title}
+            </p>
+            <p className="text-[11px] text-muted font-normal leading-snug mt-0.5 truncate">
+              {leftAppleNotifications[leftIndex].message}
+            </p>
           </div>
         </div>
       </div>
@@ -159,39 +181,28 @@ export default function Hero({ onOpenForm }) {
         </div>
       </div>
 
-      {/* Right Peripheral Floating Flip Card (Desktop) */}
-      <div className="hidden lg:flex absolute right-3 sm:right-5 xl:right-8 2xl:right-14 top-[48%] -translate-y-1/2 z-0 pointer-events-none select-none">
+      {/* Right Peripheral Apple Push Notification (Desktop) */}
+      <div className="hidden xl:flex absolute right-4 2xl:right-12 top-[48%] -translate-y-1/2 z-0 pointer-events-none select-none">
         <div
-          key={`right-${rightIndex}`}
-          className="w-60 xl:w-72 bg-white/95 backdrop-blur-xl border border-hairline rounded-2xl p-4 shadow-[0_16px_40px_rgba(0,0,0,0.08)] text-left animate-card-flip pointer-events-auto transition-transform hover:scale-[1.02]"
+          key={`apple-right-${rightIndex}`}
+          className="w-[270px] bg-white/85 backdrop-blur-2xl border border-black/[0.08] rounded-[20px] p-3 shadow-[0_12px_36px_rgba(0,0,0,0.08)] flex items-start gap-2.5 text-left animate-apple-flip pointer-events-auto transition-transform hover:scale-[1.02]"
         >
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <div className="flex items-center gap-1.5">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          {renderAppIcon(rightAppleNotifications[rightIndex].app)}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between gap-1 leading-none mb-1">
+              <span className="text-[10px] font-bold text-muted uppercase tracking-wider">
+                {rightAppleNotifications[rightIndex].app}
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-muted">
-                {rightNotifications[rightIndex].type}
+              <span className="text-[10px] text-muted/60 font-normal">
+                {rightAppleNotifications[rightIndex].time}
               </span>
             </div>
-            <span className="text-[10px] font-mono text-muted/60">
-              {rightNotifications[rightIndex].time}
-            </span>
-          </div>
-
-          <p className="text-sm font-bold text-ink tracking-tight mb-0.5">
-            {rightNotifications[rightIndex].title}
-          </p>
-          <p className="text-xs text-muted font-light leading-relaxed mb-3">
-            {rightNotifications[rightIndex].desc}
-          </p>
-
-          <div className="flex items-center justify-between pt-2 border-t border-hairline-soft/80 text-[10px]">
-            <span className="font-semibold text-ink bg-canvas-soft px-2 py-0.5 rounded-full border border-hairline-soft">
-              {rightNotifications[rightIndex].badge}
-            </span>
-            <span className="text-muted/60 font-light">100% Exclusive</span>
+            <p className="text-xs font-bold text-ink leading-snug tracking-tight truncate">
+              {rightAppleNotifications[rightIndex].title}
+            </p>
+            <p className="text-[11px] text-muted font-normal leading-snug mt-0.5 truncate">
+              {rightAppleNotifications[rightIndex].message}
+            </p>
           </div>
         </div>
       </div>
