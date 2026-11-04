@@ -32,22 +32,22 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-16 md:py-24 px-4 sm:px-6 max-w-4xl mx-auto border-t border-hairline">
+    <section id="faq" className="py-12 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto border-t border-hairline">
       {/* Header */}
-      <div className="text-center max-w-2xl mx-auto mb-14">
-        <div className="inline-flex items-center gap-2 bg-canvas-soft border border-hairline px-3 py-1 rounded-full text-xs font-semibold text-ink uppercase tracking-wider mb-4">
+      <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+        <div className="inline-flex items-center gap-2 bg-canvas-soft border border-hairline px-3 py-1 rounded-full text-xs font-semibold text-ink uppercase tracking-wider mb-3.5">
           <span>FAQ</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-ink tracking-tight mb-3 leading-tight">
+        <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight mb-2.5 sm:mb-3 leading-tight">
           Frequently asked questions.
         </h2>
-        <p className="text-sm sm:text-base text-muted font-light leading-relaxed">
+        <p className="text-xs sm:text-base text-muted font-light leading-relaxed">
           Common questions interior designers ask before partnering with LargerUp.
         </p>
       </div>
 
       {/* Accordion Rows */}
-      <div className="space-y-3">
+      <div className="space-y-2.5 sm:space-y-3">
         {faqs.map((faq, idx) => {
           const isOpen = openIndex === idx;
           return (
@@ -57,11 +57,11 @@ export default function FaqSection() {
             >
               <button
                 onClick={() => toggleFaq(idx)}
-                className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-semibold text-ink text-sm sm:text-base transition-colors focus:outline-none"
+                className="w-full text-left p-4 sm:p-6 flex items-center justify-between gap-3 font-semibold text-ink text-sm sm:text-base transition-colors focus:outline-none"
               >
-                <span className="leading-snug">{faq.question}</span>
+                <span className="leading-snug pr-2">{faq.question}</span>
                 <div
-                  className={`w-7 h-7 rounded-full bg-white border border-hairline flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                  className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white border border-hairline flex items-center justify-center shrink-0 transition-transform duration-300 ${
                     isOpen ? 'rotate-180 bg-ink text-white border-ink' : 'text-ink'
                   }`}
                 >
@@ -74,7 +74,7 @@ export default function FaqSection() {
                   isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                 }`}
               >
-                <div className="px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm text-ink/80 font-light leading-relaxed border-t border-hairline-soft/60 pt-3">
+                <div className="px-4 pb-4 sm:px-6 sm:pb-6 text-xs sm:text-sm text-ink/80 font-light leading-relaxed border-t border-hairline-soft/60 pt-3">
                   {faq.answer}
                 </div>
               </div>

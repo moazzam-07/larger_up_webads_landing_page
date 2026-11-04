@@ -65,40 +65,40 @@ export default function LeadCaptureForm() {
   };
 
   return (
-    <section id="apply-form" className="py-16 md:py-24 px-4 sm:px-6 max-w-3xl mx-auto border-t border-hairline">
+    <section id="apply-form" className="py-12 sm:py-20 px-4 sm:px-6 max-w-3xl mx-auto border-t border-hairline">
       {/* Header */}
-      <div className="text-center max-w-xl mx-auto mb-10">
-        <div className="inline-flex items-center gap-2 bg-canvas-soft border border-hairline px-3 py-1 rounded-full text-xs font-semibold text-ink uppercase tracking-wider mb-4">
+      <div className="text-center max-w-xl mx-auto mb-8 sm:mb-10">
+        <div className="inline-flex items-center gap-2 bg-canvas-soft border border-hairline px-3 py-1 rounded-full text-xs font-semibold text-ink uppercase tracking-wider mb-3.5">
           <span>Get Started</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-ink tracking-tight mb-3 leading-tight">
+        <h2 className="text-2xl sm:text-4xl font-bold text-ink tracking-tight mb-2.5 sm:mb-3 leading-tight">
           Book your free consultation.
         </h2>
-        <p className="text-sm sm:text-base text-muted font-light leading-relaxed">
+        <p className="text-xs sm:text-base text-muted font-light leading-relaxed">
           Tell us about your interior studio, and we’ll reach out on WhatsApp to discuss how to build your client pipeline.
         </p>
       </div>
 
       {/* Form Surface */}
-      <div className="bg-canvas border border-hairline rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+      <div className="bg-canvas border border-hairline rounded-3xl p-5 sm:p-10 relative overflow-hidden">
         {status === 'success' ? (
-          <div className="text-center py-10 flex flex-col items-center">
-            <div className="w-14 h-14 rounded-full bg-canvas-soft border border-hairline flex items-center justify-center text-ink mb-5">
-              <CheckCircle2 className="w-7 h-7 text-ink" />
+          <div className="text-center py-8 sm:py-10 flex flex-col items-center">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-canvas-soft border border-hairline flex items-center justify-center text-ink mb-4 sm:mb-5">
+              <CheckCircle2 className="w-6 h-6 sm:w-7 sm:h-7 text-ink" />
             </div>
-            <h3 className="text-2xl font-bold text-ink mb-2">
+            <h3 className="text-xl sm:text-2xl font-bold text-ink mb-2">
               Thank You, {formData.fullName}.
             </h3>
-            <p className="text-muted text-sm max-w-md mx-auto mb-6 leading-relaxed">
+            <p className="text-muted text-xs sm:text-sm max-w-md mx-auto mb-4 leading-relaxed">
               We received your details. Our team will message you on WhatsApp ({formData.phone}) within 4 business hours to schedule your consultation call.
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
             {/* Row 1: Full Name & Work Email */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-ink mb-2">
+                <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
                   Full Name *
                 </label>
                 <input
@@ -108,12 +108,12 @@ export default function LeadCaptureForm() {
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="e.g. Ar. Sameer Roy"
-                  className="w-full bg-field text-ink placeholder:text-muted/60 text-sm rounded-2xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all"
+                  className="w-full bg-field text-ink placeholder:text-muted/60 text-base rounded-2xl px-4 py-3 sm:py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-ink mb-2">
+                <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
                   Work Email *
                 </label>
                 <input
@@ -123,15 +123,15 @@ export default function LeadCaptureForm() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="sameer@yourstudio.com"
-                  className="w-full bg-field text-ink placeholder:text-muted/60 text-sm rounded-2xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all"
+                  className="w-full bg-field text-ink placeholder:text-muted/60 text-base rounded-2xl px-4 py-3 sm:py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all"
                 />
               </div>
             </div>
 
             {/* Row 2: WhatsApp Number & Role */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-ink mb-2">
+                <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
                   WhatsApp / Phone Number *
                 </label>
                 <input
@@ -141,39 +141,39 @@ export default function LeadCaptureForm() {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+91 98765 43210"
-                  className="w-full bg-field text-ink placeholder:text-muted/60 text-sm rounded-2xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all"
+                  className="w-full bg-field text-ink placeholder:text-muted/60 text-base rounded-2xl px-4 py-3 sm:py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-ink mb-2">
-                  Are You a Studio Owner or Freelancer? *
+                <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
+                  Studio Owner or Freelancer? *
                 </label>
                 <select
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="w-full bg-field text-ink text-sm rounded-2xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all cursor-pointer"
+                  className="w-full bg-field text-ink text-base rounded-2xl px-4 py-3 sm:py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all cursor-pointer"
                 >
-                  <option value="studio_owner">Studio Owner / Principal Architect (Physical Studio)</option>
-                  <option value="freelancer">Independent Interior Designer / Freelancer</option>
-                  <option value="turnkey_firm">Turnkey Design-and-Build Firm</option>
+                  <option value="studio_owner">Studio Owner / Principal Architect</option>
+                  <option value="freelancer">Independent Designer / Freelancer</option>
+                  <option value="turnkey_firm">Turnkey Design Firm</option>
                 </select>
               </div>
             </div>
 
             {/* Row 3: Optional Website / Instagram */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-ink mb-2">
-                Studio Website or Instagram Profile (Optional)
+              <label className="block text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-ink mb-1.5 sm:mb-2">
+                Studio Website / Instagram (Optional)
               </label>
               <input
                 type="text"
                 name="notes"
                 value={formData.notes}
                 onChange={handleChange}
-                placeholder="instagram.com/your_design_studio or portfolio link"
-                className="w-full bg-field text-ink placeholder:text-muted/60 text-sm rounded-2xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all"
+                placeholder="instagram.com/your_design_studio or portfolio"
+                className="w-full bg-field text-ink placeholder:text-muted/60 text-base rounded-2xl px-4 py-3 sm:py-3.5 outline-none focus:ring-2 focus:ring-ink transition-all"
               />
             </div>
 
@@ -188,7 +188,7 @@ export default function LeadCaptureForm() {
               <button
                 type="submit"
                 disabled={status === 'submitting'}
-                className="w-full bg-ink hover:bg-ink-soft disabled:opacity-50 text-white text-base font-semibold py-4 px-8 rounded-full transition-all inline-flex items-center justify-center gap-2 active:scale-95 shadow-sm"
+                className="w-full bg-ink hover:bg-ink-soft disabled:opacity-50 text-white text-base font-semibold py-3.5 sm:py-4 px-6 rounded-full transition-all inline-flex items-center justify-center gap-2 active:scale-95 shadow-sm"
               >
                 {status === 'submitting' ? (
                   <div className="flex items-center gap-2">
@@ -204,8 +204,8 @@ export default function LeadCaptureForm() {
               </button>
             </div>
 
-            <div className="flex items-center justify-center gap-1.5 text-xs text-muted pt-3 border-t border-hairline-soft">
-              <ShieldCheck className="w-4 h-4 text-ink" />
+            <div className="flex items-center justify-center gap-1.5 text-[11px] sm:text-xs text-muted pt-2 border-t border-hairline-soft">
+              <ShieldCheck className="w-3.5 h-3.5 text-ink" />
               <span>Your contact details are strictly kept private and confidential.</span>
             </div>
           </form>

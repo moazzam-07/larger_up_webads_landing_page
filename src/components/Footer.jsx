@@ -7,34 +7,35 @@ export default function Footer({ onOpenForm }) {
   };
 
   return (
-    <footer className="w-full bg-ink text-white rounded-t-[28px] sm:rounded-t-[36px] pt-14 pb-12 px-6 sm:px-10 mt-12">
+    <footer className="w-full bg-ink text-white rounded-t-[24px] sm:rounded-t-[36px] pt-10 sm:pt-14 pb-10 sm:pb-12 px-5 sm:px-10 mt-8 sm:mt-12">
       <div className="max-w-5xl mx-auto">
         {/* Top Bar */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-white/10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 sm:pb-12 border-b border-white/10">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-xl bg-white text-ink font-bold text-base flex items-center justify-center squircle">
+            <div className="flex items-center gap-2 mb-2 sm:mb-3">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white text-ink font-bold text-sm sm:text-base flex items-center justify-center squircle">
                 <span>L</span>
               </div>
-              <span className="text-xl font-bold tracking-tight">LargerUp</span>
+              <span className="text-lg sm:text-xl font-bold tracking-tight">LargerUp</span>
             </div>
-            <p className="text-white/60 text-sm max-w-sm font-light leading-relaxed">
+            <p className="text-white/60 text-xs sm:text-sm max-w-sm font-light leading-relaxed">
               Client acquisition systems built specifically for interior design studios and architects.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 w-full sm:w-auto">
             <button
               onClick={onOpenForm}
-              className="bg-white hover:bg-neutral-200 text-ink text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-full transition-all inline-flex items-center gap-1.5 active:scale-95"
+              className="flex-1 sm:flex-none bg-white hover:bg-neutral-200 text-ink text-xs sm:text-sm font-semibold px-5 py-3 rounded-full transition-all inline-flex items-center justify-center gap-1.5 active:scale-95 text-center"
             >
               <span>Book Free Consultation</span>
-              <ArrowUpRight className="w-4 h-4 text-ink" />
+              <ArrowUpRight className="w-3.5 h-3.5 text-ink" />
             </button>
             <button
               onClick={scrollToTop}
-              className="w-10 h-10 rounded-full border border-white/20 hover:border-white flex items-center justify-center text-white transition-colors"
+              className="w-10 h-10 rounded-full border border-white/20 hover:border-white flex items-center justify-center text-white transition-colors shrink-0"
               title="Back to Top"
+              aria-label="Back to Top"
             >
               <ArrowUp className="w-4 h-4" />
             </button>
@@ -42,11 +43,12 @@ export default function Footer({ onOpenForm }) {
         </div>
 
         {/* Links & Inquiries */}
-        <div className="py-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 text-xs text-white/60 font-light">
-          <div className="flex items-center gap-6">
+        <div className="py-6 sm:py-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-white/10 text-xs text-white/60 font-light">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <a href="#case-studies" className="hover:text-white transition-colors">Case Studies</a>
             <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
             <a href="#comparison" className="hover:text-white transition-colors">Why Us</a>
+            <a href="#reviews" className="hover:text-white transition-colors">Reviews</a>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
           </div>
 
@@ -59,9 +61,9 @@ export default function Footer({ onOpenForm }) {
         </div>
 
         {/* Bottom Legal */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-white/40 font-light gap-3">
+        <div className="pt-5 sm:pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] sm:text-xs text-white/40 font-light gap-2.5">
           <p>© {new Date().getFullYear()} LargerUp Technologies. All rights reserved.</p>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <span className="hover:text-white/60 cursor-pointer">Privacy Policy</span>
             <span>•</span>
             <span className="hover:text-white/60 cursor-pointer">Terms of Service</span>
