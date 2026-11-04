@@ -60,8 +60,17 @@ export default function Navbar({ onOpenForm }) {
             </a>
           </div>
 
-          {/* Actions / Right Spacer for Perfect Desktop Centering */}
-          <div className="flex items-center justify-end md:w-[110px]">
+          {/* Actions - CTA & Mobile Toggle */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* CTA Button: "Free Consultation" */}
+            <button
+              onClick={onOpenForm}
+              className="bg-ink hover:bg-ink-soft text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full transition-all inline-flex items-center gap-1 active:scale-95 whitespace-nowrap shadow-sm"
+            >
+              <span>Free Consultation</span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-white/80" />
+            </button>
+
             {/* Mobile Hamburger Toggle (only on mobile) */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
