@@ -89,11 +89,11 @@ export default function Hero({ onOpenForm }) {
   }, []);
 
   return (
-    <section className="min-h-[100dvh] w-full flex flex-col items-center justify-center relative px-4 sm:px-6 pt-20 pb-16 sm:pt-24 sm:pb-20 text-center max-w-7xl mx-auto overflow-hidden">
+    <section className="min-h-[100dvh] w-full flex flex-col items-center justify-center relative px-3 sm:px-6 pt-20 pb-16 sm:pt-24 sm:pb-20 text-center max-w-[1700px] mx-auto overflow-hidden">
       {/* Mobile Live Notification Pill (Centrally Positioned Above Headline) */}
       <div
         key={`mobile-${leftIndex}`}
-        className="lg:hidden mb-6 sm:mb-8 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-canvas-soft/90 backdrop-blur-md border border-hairline shadow-sm text-xs text-ink animate-notification-blur max-w-[90vw]"
+        className="lg:hidden mb-6 sm:mb-8 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-canvas-soft/90 backdrop-blur-md border border-hairline shadow-sm text-xs text-ink animate-card-flip max-w-[90vw]"
       >
         <span className="relative flex h-2 w-2 shrink-0">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -103,21 +103,11 @@ export default function Hero({ onOpenForm }) {
         <span className="text-muted font-light truncate">{leftNotifications[leftIndex].desc}</span>
       </div>
 
-      {/* Left Peripheral Floating Notification Cluster (Desktop with Depth Layers) */}
-      <div className="hidden lg:flex absolute left-3 xl:left-8 2xl:left-14 top-1/2 -translate-y-1/2 flex-col items-start gap-4 z-0 pointer-events-none select-none">
-        {/* Layer 1: Background Depth Card (Softly blurred in distance) */}
-        <div className="w-56 bg-white/70 backdrop-blur-sm border border-hairline/60 rounded-2xl p-3.5 shadow-sm text-left -rotate-3 blur-[1.5px] opacity-65 scale-90 -mb-2 ml-1 animate-float-gentle">
-          <div className="flex items-center gap-1.5 mb-1 text-[10px] text-muted font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-ink/60" />
-            <span>Upcoming Site Visit</span>
-          </div>
-          <p className="text-xs font-semibold text-ink/80">South Kolkata Penthouse</p>
-        </div>
-
-        {/* Layer 2: Foreground Transitioning Live Card */}
+      {/* Left Peripheral Floating Flip Card (Desktop) */}
+      <div className="hidden lg:flex absolute left-3 sm:left-5 xl:left-8 2xl:left-14 top-[54%] -translate-y-1/2 z-0 pointer-events-none select-none">
         <div
           key={`left-${leftIndex}`}
-          className="w-72 xl:w-80 bg-white/95 backdrop-blur-xl border border-hairline rounded-2xl p-4 shadow-[0_12px_36px_rgba(0,0,0,0.07)] text-left animate-notification-blur pointer-events-auto transition-transform hover:scale-[1.02]"
+          className="w-60 xl:w-72 bg-white/95 backdrop-blur-xl border border-hairline rounded-2xl p-4 shadow-[0_16px_40px_rgba(0,0,0,0.08)] text-left animate-card-flip pointer-events-auto transition-transform hover:scale-[1.02]"
         >
           <div className="flex items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-1.5">
@@ -151,9 +141,9 @@ export default function Hero({ onOpenForm }) {
       </div>
 
       {/* Center Main Stage Content */}
-      <div className="max-w-4xl mx-auto flex flex-col items-center z-10 px-2">
+      <div className="max-w-xl md:max-w-2xl xl:max-w-3xl mx-auto flex flex-col items-center z-10 px-4">
         {/* Bold, Responsive Headline with Blurry Incoming Animation */}
-        <h1 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[84px] font-black text-ink tracking-tight leading-[1.08] sm:leading-[1.04] mb-8 sm:mb-12 md:mb-14 animate-blur-in delay-150">
+        <h1 className="text-4xl xs:text-5xl sm:text-6xl md:text-6xl lg:text-[62px] xl:text-[74px] 2xl:text-[82px] font-black text-ink tracking-tight leading-[1.08] sm:leading-[1.05] mb-8 sm:mb-12 md:mb-14 animate-blur-in delay-150">
           Get high-ticket interior clients every month.
         </h1>
 
@@ -169,12 +159,11 @@ export default function Hero({ onOpenForm }) {
         </div>
       </div>
 
-      {/* Right Peripheral Floating Notification Cluster (Desktop with Depth Layers) */}
-      <div className="hidden lg:flex absolute right-3 xl:right-8 2xl:right-14 top-1/2 -translate-y-1/2 flex-col items-end gap-4 z-0 pointer-events-none select-none">
-        {/* Layer 1: Foreground Transitioning Live Card */}
+      {/* Right Peripheral Floating Flip Card (Desktop) */}
+      <div className="hidden lg:flex absolute right-3 sm:right-5 xl:right-8 2xl:right-14 top-[48%] -translate-y-1/2 z-0 pointer-events-none select-none">
         <div
           key={`right-${rightIndex}`}
-          className="w-72 xl:w-80 bg-white/95 backdrop-blur-xl border border-hairline rounded-2xl p-4 shadow-[0_12px_36px_rgba(0,0,0,0.07)] text-left animate-notification-blur pointer-events-auto transition-transform hover:scale-[1.02]"
+          className="w-60 xl:w-72 bg-white/95 backdrop-blur-xl border border-hairline rounded-2xl p-4 shadow-[0_16px_40px_rgba(0,0,0,0.08)] text-left animate-card-flip pointer-events-auto transition-transform hover:scale-[1.02]"
         >
           <div className="flex items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-1.5">
@@ -204,15 +193,6 @@ export default function Hero({ onOpenForm }) {
             </span>
             <span className="text-muted/60 font-light">100% Exclusive</span>
           </div>
-        </div>
-
-        {/* Layer 2: Background Depth Card (Softly blurred in distance) */}
-        <div className="w-56 bg-white/70 backdrop-blur-sm border border-hairline/60 rounded-2xl p-3.5 shadow-sm text-left rotate-3 blur-[1.5px] opacity-65 scale-90 -mt-2 mr-1 animate-float-gentle-alt">
-          <div className="flex items-center gap-1.5 mb-1 text-[10px] text-muted font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            <span>Pre-Screened Budget</span>
-          </div>
-          <p className="text-xs font-semibold text-ink/80">₹40L+ Mandate • Nov 2026</p>
         </div>
       </div>
     </section>

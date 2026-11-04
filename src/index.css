@@ -78,6 +78,30 @@
   animation-delay: 700ms;
 }
 
+/* 3D Flip Card Transition with Blur */
+@keyframes cardFlipDown {
+  0% {
+    opacity: 0;
+    filter: blur(14px);
+    transform: perspective(900px) rotateX(75deg) translateY(-22px) scale(0.92);
+  }
+  50% {
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: perspective(900px) rotateX(0deg) translateY(0px) scale(1);
+  }
+}
+
+.animate-card-flip {
+  animation: cardFlipDown 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: 50% 0%;
+  backface-visibility: hidden;
+  will-change: transform, opacity, filter;
+}
+
 /* Floating notifications & blur transition */
 @keyframes notificationBlurIn {
   0% {
