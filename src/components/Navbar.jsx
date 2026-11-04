@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
+import LargerUpLogo from './LargerUpLogo';
 
 export default function Navbar({ onOpenForm }) {
   const [scrolled, setScrolled] = useState(false);
@@ -30,9 +31,9 @@ export default function Navbar({ onOpenForm }) {
           }`}
         >
           {/* Brand Logo */}
-          <a href="#" className="flex items-center gap-2 group shrink-0">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-ink rounded-lg flex items-center justify-center text-white font-bold text-sm sm:text-base squircle">
-              <span>L</span>
+          <a href="#" className="flex items-center gap-2.5 group shrink-0">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-ink rounded-xl flex items-center justify-center text-white p-1.5 transition-transform group-hover:scale-105 squircle shadow-sm">
+              <LargerUpLogo className="w-full h-full text-white" />
             </div>
             <span className="font-semibold text-ink text-base sm:text-lg tracking-tight">LargerUp</span>
           </a>
