@@ -21,3 +21,4 @@ export default function LargerUpLogo({ className = 'w-6 h-6', ...props }) {
     </svg>
   );
 }
+

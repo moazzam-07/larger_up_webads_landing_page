@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, X, Flame, Music2, ArrowUpRight } from 'lucide-react';
+import { ExternalLink, X, ArrowUpRight } from 'lucide-react';
 
 export const portfolioProjects = [
   {
@@ -16,7 +16,7 @@ export const portfolioProjects = [
     id: 'da-interiors',
     name: 'DA Interiors',
     headline: 'Architecture & Bespoke Living',
-    category: 'Bespoke Luxury',
+    category: 'Bespoke Luxury Living',
     location: 'Kolkata',
     image: '/portfolio/portfolio-2.png',
     scope: 'Curated 3D panoramic showroom showcasing high-value apartment and duplex transformations.',
@@ -49,38 +49,19 @@ export default function PortfolioCreations({ onOpenForm }) {
 
   return (
     <section id="creations" className="py-12 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto border-t border-hairline">
-      {/* Top Capsule & Title Row modeled after Mobbin / reference screenshot */}
-      <div className="mb-8 sm:mb-12">
-        {/* Top Mini Capsule Pill */}
-        <div className="flex items-center justify-between border border-hairline bg-canvas-soft/80 backdrop-blur-sm rounded-2xl px-4 py-2 sm:px-5 sm:py-2.5 mb-5 sm:mb-7">
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] text-ink">
-              PROJECTS
-            </span>
-          </div>
-          <div className="flex items-center gap-2.5 text-ink/70">
-            <Music2 className="w-3.5 h-3.5" />
-            <Flame className="w-3.5 h-3.5" />
-          </div>
+      {/* Clean, High-End Section Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8 sm:mb-12">
+        <div>
+          <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-muted block mb-2">
+            Selected Work
+          </span>
+          <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-black text-ink tracking-tight uppercase leading-none font-sans">
+            CREATIONS
+          </h2>
         </div>
-
-        {/* Big Bold CREATIONS Title & Quote */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-black text-ink tracking-tight uppercase leading-none font-sans">
-              CREATIONS
-            </h2>
-          </div>
-
-          <div className="sm:text-right">
-            <p className="font-serif text-base sm:text-lg text-ink font-semibold tracking-wide">
-              «الإبداع لغة الروح»
-            </p>
-            <p className="text-[11px] sm:text-xs text-muted font-light mt-0.5">
-              'Creation is the language of the soul.'
-            </p>
-          </div>
-        </div>
+        <p className="text-xs sm:text-sm text-muted font-light max-w-sm sm:text-right leading-relaxed">
+          Client acquisition engines & luxury digital experiences built for interior studios in Kolkata.
+        </p>
       </div>
 
       {/* 2-Column Responsive Grid of Built Portfolio Websites */}
@@ -91,29 +72,22 @@ export default function PortfolioCreations({ onOpenForm }) {
             onClick={() => setActiveProject(project)}
             className="group bg-canvas border border-hairline hover:border-ink rounded-3xl overflow-hidden transition-all duration-300 flex flex-col cursor-pointer active:scale-[0.99] shadow-sm hover:shadow-md"
           >
-            {/* Website Preview Image Container */}
+            {/* Website Preview Image Container (Clean, Unobstructed) */}
             <div className="relative aspect-[16/9] bg-field overflow-hidden border-b border-hairline">
               <img
                 src={project.image}
                 alt={project.name}
                 loading="lazy"
-                className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+                className="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500 ease-out"
               />
 
-              {/* Minimal Gradient & Badge Overlay */}
+              {/* Minimal Hover Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4 sm:p-5">
                 <span className="text-xs font-semibold text-white bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
                   Click to view full preview ↗
                 </span>
                 <span className="w-8 h-8 rounded-full bg-white text-ink flex items-center justify-center shadow">
                   <ExternalLink className="w-4 h-4" />
-                </span>
-              </div>
-
-              {/* Tag pill top left */}
-              <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
-                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-ink bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full border border-hairline shadow-sm">
-                  {project.category}
                 </span>
               </div>
             </div>
@@ -136,10 +110,9 @@ export default function PortfolioCreations({ onOpenForm }) {
 
               {/* Bottom Specs & View Action */}
               <div className="pt-3.5 mt-3.5 border-t border-hairline-soft flex items-center justify-between text-xs">
-                <div className="flex items-center gap-1.5 text-muted font-light">
-                  <span className="w-1.5 h-1.5 rounded-full bg-ink" />
-                  <span className="text-[11px] sm:text-xs">Turnkey Client Engine</span>
-                </div>
+                <span className="text-muted text-[11px] sm:text-xs font-light">
+                  {project.category}
+                </span>
                 <span className="font-semibold text-ink group-hover:underline inline-flex items-center gap-0.5">
                   View preview ↗
                 </span>
@@ -229,4 +202,3 @@ export default function PortfolioCreations({ onOpenForm }) {
     </section>
   );
 }
-
