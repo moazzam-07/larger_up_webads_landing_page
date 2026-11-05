@@ -61,36 +61,33 @@ const allAppleNotifications = [
   },
 ];
 
-// Curated safe spots across desktop canvas:
-// Cards pop into different random safe spots, never in a single static place, never awkwardly overlapping text
-const TOP_LEFT_SPOTS = [
-  { style: { top: '13%', left: '3%', transform: 'rotate(-2deg)' }, isDepth: false },
-  { style: { top: '18%', left: '6%', transform: 'rotate(1deg)' }, isDepth: false },
-  { style: { top: '22%', left: '16%', transform: 'rotate(-2.5deg)' }, isDepth: true },
+// Curated safe spots across desktop canvas framing the headline:
+// 4 corners/shoulders well away from center text & CTA
+const DESKTOP_SPOTS = [
+  // Spot 0: Top-Left Shoulder
+  { style: { top: '13%', left: '3.5%', transform: 'rotate(-1.5deg)' }, isDepth: false },
+  // Spot 1: Top-Right Shoulder
+  { style: { top: '13%', right: '3.5%', transform: 'rotate(1.5deg)' }, isDepth: false },
+  // Spot 2: Bottom-Left Flank
+  { style: { bottom: '11%', left: '4%', transform: 'rotate(1deg)' }, isDepth: false },
+  // Spot 3: Bottom-Right Flank
+  { style: { bottom: '11%', right: '4%', transform: 'rotate(-1deg)' }, isDepth: false },
 ];
 
-const TOP_RIGHT_SPOTS = [
-  { style: { top: '13%', right: '3%', transform: 'rotate(2deg)' }, isDepth: false },
-  { style: { top: '18%', right: '6%', transform: 'rotate(-1deg)' }, isDepth: false },
-  { style: { top: '22%', right: '16%', transform: 'rotate(2.5deg)' }, isDepth: true },
-];
-
-const BOTTOM_LEFT_SPOTS = [
-  { style: { bottom: '11%', left: '3%', transform: 'rotate(-1deg)' }, isDepth: false },
-  { style: { bottom: '18%', left: '6%', transform: 'rotate(1.5deg)' }, isDepth: false },
-];
-
-const BOTTOM_RIGHT_SPOTS = [
-  { style: { bottom: '11%', right: '3%', transform: 'rotate(1deg)' }, isDepth: false },
-  { style: { bottom: '18%', right: '6%', transform: 'rotate(-1.5deg)' }, isDepth: false },
+// Alternate subtle variations per batch for organic realism
+const DESKTOP_SPOTS_ALT = [
+  { style: { top: '17%', left: '5.5%', transform: 'rotate(1deg)' }, isDepth: false },
+  { style: { top: '17%', right: '5.5%', transform: 'rotate(-1.2deg)' }, isDepth: false },
+  { style: { bottom: '15%', left: '5.5%', transform: 'rotate(-1deg)' }, isDepth: false },
+  { style: { bottom: '15%', right: '5.5%', transform: 'rotate(1.2deg)' }, isDepth: false },
 ];
 
 // Mobile safe zones (alternating dynamically above and below the headline)
 const MOBILE_SAFE_SPOTS = [
-  { position: 'top', align: 'justify-start pl-1 sm:pl-2', rotate: 'rotate(-1deg)' },
-  { position: 'bottom', align: 'justify-end pr-1 sm:pr-2', rotate: 'rotate(1deg)' },
-  { position: 'top', align: 'justify-end pr-1 sm:pr-2', rotate: 'rotate(0.5deg)' },
-  { position: 'bottom', align: 'justify-start pl-1 sm:pl-2', rotate: 'rotate(-0.5deg)' },
+  { position: 'top', align: 'justify-start pl-2', rotate: 'rotate(-1deg)' },
+  { position: 'bottom', align: 'justify-end pr-2', rotate: 'rotate(1deg)' },
+  { position: 'top', align: 'justify-end pr-2', rotate: 'rotate(0.5deg)' },
+  { position: 'bottom', align: 'justify-start pl-2', rotate: 'rotate(-0.5deg)' },
 ];
 
 const DYNAMIC_TIME_WORDS = ['month.', 'week.', 'day.', 'hour.'];
@@ -99,12 +96,16 @@ export default function Hero({ onOpenForm }) {
   // Dynamic headline flipping word index (month -> week -> day -> hour -> month)
   const [wordIdx, setWordIdx] = useState(0);
 
-  // Desktop dynamic notification cards: appear spontaneously in changing safe spots
-  const [activeCards, setActiveCards] = useState({
-    cardA: { notifIdx: 0, spotIdx: 0, key: 'card-a-0' },
-    cardB: { notifIdx: 1, spotIdx: 0, key: 'card-b-0' },
-    cardC: { notifIdx: 2, spotIdx: 0, isLeft: true, key: 'card-c-0' },
-  });
+  // Desktop 4 notifications sequence state:
+  // Step 1: Card 1 enters
+  // Step 2: Card 2 enters (Cards 1 & 2 visible)
+  // Step 3: Card 3 enters (Cards 1, 2, 3 visible)
+  // Step 4: Card 4 enters (All 4 cards visible, hold)
+  // Step 5: All 4 cards disappear SIMULTANEOUSLY (isExiting = true)
+  // Reset: batchOffset += 4, step = 1
+  const [desktopStep, setDesktopStep] = useState(1);
+  const [batchOffset, setBatchOffset] = useState(0);
+  const [batchCycle, setBatchCycle] = useState(0);
 
   // Mobile dynamic notification state
   const [mobileState, setMobileState] = useState({
@@ -113,58 +114,54 @@ export default function Hero({ onOpenForm }) {
     key: 'mobile-0',
   });
 
+  // Desktop Sequence Timer
+  useEffect(() => {
+    let timerId;
+
+    if (desktopStep === 1) {
+      // Card 1 has appeared, wait 950ms then show Card 2
+      timerId = setTimeout(() => {
+        setDesktopStep(2);
+      }, 950);
+    } else if (desktopStep === 2) {
+      // Card 2 has appeared, wait 950ms then show Card 3
+      timerId = setTimeout(() => {
+        setDesktopStep(3);
+      }, 950);
+    } else if (desktopStep === 3) {
+      // Card 3 has appeared, wait 950ms then show Card 4
+      timerId = setTimeout(() => {
+        setDesktopStep(4);
+      }, 950);
+    } else if (desktopStep === 4) {
+      // All 4 cards are now visible on screen together!
+      // Keep them visible together for 2.6 seconds so the viewer can read them comfortably
+      timerId = setTimeout(() => {
+        setDesktopStep(5); // Trigger simultaneous exit
+      }, 2600);
+    } else if (desktopStep === 5) {
+      // Exit animation duration (550ms) - all 4 cards fade & blur out together
+      timerId = setTimeout(() => {
+        setBatchOffset((prev) => (prev + 4) % allAppleNotifications.length);
+        setBatchCycle((prev) => prev + 1);
+        setDesktopStep(1); // Restart with Card 1 of next batch
+      }, 550);
+    }
+
+    return () => clearTimeout(timerId);
+  }, [desktopStep]);
+
+  // Mobile Loop & Headline Word Flip
   useEffect(() => {
     let tick = 0;
 
-    const interval = setInterval(() => {
+    const mobileInterval = setInterval(() => {
       tick++;
-
-      // Mobile cycles every tick (~2.8s) through notifications and alternating positions
       setMobileState({
         notifIdx: tick % allAppleNotifications.length,
         spotIdx: tick % MOBILE_SAFE_SPOTS.length,
         key: `mobile-${tick}`,
       });
-
-      // Desktop cycles one card at a time in a staggered round-robin
-      const phase = tick % 3;
-
-      if (phase === 0) {
-        // Card A: Spawns in a new random Top-Left / Shoulder spot
-        setActiveCards((prev) => ({
-          ...prev,
-          cardA: {
-            notifIdx: (tick + 1) % allAppleNotifications.length,
-            spotIdx: (prev.cardA.spotIdx + 1) % TOP_LEFT_SPOTS.length,
-            key: `card-a-${tick}`,
-          },
-        }));
-      } else if (phase === 1) {
-        // Card B: Spawns in a new random Top-Right / Shoulder spot
-        setActiveCards((prev) => ({
-          ...prev,
-          cardB: {
-            notifIdx: (tick + 3) % allAppleNotifications.length,
-            spotIdx: (prev.cardB.spotIdx + 1) % TOP_RIGHT_SPOTS.length,
-            key: `card-b-${tick}`,
-          },
-        }));
-      } else {
-        // Card C: Alternates between Bottom-Left and Bottom-Right safe spots
-        setActiveCards((prev) => {
-          const isLeft = tick % 2 === 0;
-          const pool = isLeft ? BOTTOM_LEFT_SPOTS : BOTTOM_RIGHT_SPOTS;
-          return {
-            ...prev,
-            cardC: {
-              notifIdx: (tick + 5) % allAppleNotifications.length,
-              spotIdx: (prev.cardC.spotIdx + 1) % pool.length,
-              isLeft,
-              key: `card-c-${tick}`,
-            },
-          };
-        });
-      }
     }, 2800);
 
     // Headline dynamic word rotation: month -> week -> day -> hour -> month
@@ -173,105 +170,179 @@ export default function Hero({ onOpenForm }) {
     }, 2600);
 
     return () => {
-      clearInterval(interval);
+      clearInterval(mobileInterval);
       clearInterval(wordInterval);
     };
   }, []);
 
-  const renderAppIcon = (app) => {
+  const renderAppIcon = (app, isMobile = false) => {
+    const containerClass = isMobile
+      ? 'w-6 h-6 rounded-[8px] bg-ink text-white p-1 flex items-center justify-center shrink-0 shadow-xs'
+      : 'w-8 h-8 rounded-xl bg-ink text-white p-1.5 flex items-center justify-center shrink-0 shadow-sm';
+    const iconClass = isMobile ? 'w-3 h-3 text-white' : 'w-4 h-4 text-white';
+
     if (app === 'CALENDAR') {
       return (
-        <div className="w-8 h-8 rounded-xl bg-ink text-white p-1.5 flex items-center justify-center shrink-0 shadow-sm">
-          <Calendar className="w-4 h-4 text-white" />
+        <div className={containerClass}>
+          <Calendar className={iconClass} />
         </div>
       );
     }
     if (app === 'MESSAGES') {
       return (
-        <div className="w-8 h-8 rounded-xl bg-ink text-white p-1.5 flex items-center justify-center shrink-0 shadow-sm">
-          <MessageSquare className="w-4 h-4 text-white" />
+        <div className={containerClass}>
+          <MessageSquare className={iconClass} />
         </div>
       );
     }
     return (
-      <div className="w-8 h-8 rounded-xl bg-ink text-white p-1.5 flex items-center justify-center shrink-0 shadow-sm">
+      <div className={containerClass}>
         <LargerUpLogo className="w-full h-full text-white" />
       </div>
     );
   };
 
-  const renderCard = (item, isDepth = false, extraClasses = '') => (
-    <div
-      className={`w-[250px] sm:w-[270px] bg-white/85 backdrop-blur-2xl border border-black/[0.08] rounded-[20px] p-2.5 sm:p-3 shadow-[0_12px_36px_rgba(0,0,0,0.08)] flex items-start gap-2.5 text-left pointer-events-auto transition-all animate-apple-pop ${
-        isDepth
-          ? 'opacity-40 blur-[1px] scale-90 -z-10'
-          : 'opacity-100 scale-100 z-10 hover:scale-[1.02]'
-      } ${extraClasses}`}
-    >
-      {renderAppIcon(item.app)}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between gap-1 leading-none mb-1">
-          <span className="text-[10px] font-bold text-muted uppercase tracking-wider">
-            {item.app}
-          </span>
-          <span className="text-[10px] text-muted/60 font-normal">
-            {item.time}
-          </span>
+  // Card component supporting desktop staggered/simultaneous exit & compact mobile sizing
+  const renderCard = (item, isDepth = false, extraClasses = '', isMobile = false, isExiting = false) => {
+    if (isMobile) {
+      return (
+        <div
+          className={`w-[210px] xs:w-[225px] bg-white/90 backdrop-blur-2xl border border-black/[0.08] rounded-[15px] p-2 shadow-[0_8px_24px_rgba(0,0,0,0.06)] flex items-start gap-2 text-left pointer-events-auto transition-all animate-apple-pop ${extraClasses}`}
+        >
+          {renderAppIcon(item.app, true)}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between gap-1 leading-none mb-0.5">
+              <span className="text-[8.5px] font-bold text-muted uppercase tracking-wider">
+                {item.app}
+              </span>
+              <span className="text-[8.5px] text-muted/60 font-normal">
+                {item.time}
+              </span>
+            </div>
+            <p className="text-[11px] font-bold text-ink leading-tight tracking-tight truncate">
+              {item.title}
+            </p>
+            <p className="text-[9.5px] text-muted font-normal leading-tight mt-0.5 truncate">
+              {item.message}
+            </p>
+          </div>
         </div>
-        <p className="text-xs font-bold text-ink leading-snug tracking-tight truncate">
-          {item.title}
-        </p>
-        <p className="text-[11px] text-muted font-normal leading-snug mt-0.5 truncate">
-          {item.message}
-        </p>
-      </div>
-    </div>
-  );
+      );
+    }
 
-  const spotA = TOP_LEFT_SPOTS[activeCards.cardA.spotIdx];
-  const spotB = TOP_RIGHT_SPOTS[activeCards.cardB.spotIdx];
-  const spotC = (activeCards.cardC.isLeft ? BOTTOM_LEFT_SPOTS : BOTTOM_RIGHT_SPOTS)[activeCards.cardC.spotIdx];
+    return (
+      <div
+        className={`w-[260px] lg:w-[275px] bg-white/85 backdrop-blur-2xl border border-black/[0.08] rounded-[20px] p-2.5 sm:p-3 shadow-[0_12px_36px_rgba(0,0,0,0.08)] flex items-start gap-2.5 text-left pointer-events-auto transition-all ${
+          isExiting ? 'animate-apple-exit-all' : 'animate-apple-pop'
+        } ${
+          isDepth
+            ? 'opacity-40 blur-[1px] scale-90 -z-10'
+            : 'opacity-100 scale-100 z-10 hover:scale-[1.02]'
+        } ${extraClasses}`}
+      >
+        {renderAppIcon(item.app, false)}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-1 leading-none mb-1">
+            <span className="text-[10px] font-bold text-muted uppercase tracking-wider">
+              {item.app}
+            </span>
+            <span className="text-[10px] text-muted/60 font-normal">
+              {item.time}
+            </span>
+          </div>
+          <p className="text-xs font-bold text-ink leading-snug tracking-tight truncate">
+            {item.title}
+          </p>
+          <p className="text-[11px] text-muted font-normal leading-snug mt-0.5 truncate">
+            {item.message}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
+  const isExiting = desktopStep === 5;
+  const spotsPool = batchCycle % 2 === 0 ? DESKTOP_SPOTS : DESKTOP_SPOTS_ALT;
   const currentMobileSpot = MOBILE_SAFE_SPOTS[mobileState.spotIdx];
 
   return (
     <section className="min-h-[100dvh] w-full flex flex-col items-center justify-center relative px-4 sm:px-6 pt-20 pb-16 sm:pt-24 sm:pb-20 text-center max-w-[1700px] mx-auto overflow-hidden">
       
-      {/* DESKTOP SPONTANEOUS NOTIFICATIONS (Appear dynamically in random safe spots, never in a single static place) */}
+      {/* =========================================================================
+          DESKTOP 4 POPUPS: Appear One-by-One, Disappear All Together Simultaneously
+          ========================================================================= */}
       
-      {/* Dynamic Card A: Upper Left / Shoulder */}
-      <div
-        key={activeCards.cardA.key}
-        style={spotA.style}
-        className={`hidden md:flex absolute select-none pointer-events-none transition-all duration-700 ${
-          spotA.isDepth ? 'z-0' : 'z-10'
-        }`}
-      >
-        {renderCard(allAppleNotifications[activeCards.cardA.notifIdx], spotA.isDepth)}
-      </div>
+      {/* Popup 1: Top-Left (Visible in Steps 1, 2, 3, 4, 5) */}
+      {desktopStep >= 1 && (
+        <div
+          key={`batch-${batchOffset}-c1`}
+          style={spotsPool[0].style}
+          className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
+        >
+          {renderCard(
+            allAppleNotifications[(batchOffset + 0) % allAppleNotifications.length],
+            spotsPool[0].isDepth,
+            '',
+            false,
+            isExiting
+          )}
+        </div>
+      )}
 
-      {/* Dynamic Card B: Upper Right / Shoulder */}
-      <div
-        key={activeCards.cardB.key}
-        style={spotB.style}
-        className={`hidden md:flex absolute select-none pointer-events-none transition-all duration-700 ${
-          spotB.isDepth ? 'z-0' : 'z-10'
-        }`}
-      >
-        {renderCard(allAppleNotifications[activeCards.cardB.notifIdx], spotB.isDepth)}
-      </div>
+      {/* Popup 2: Top-Right (Visible in Steps 2, 3, 4, 5) */}
+      {desktopStep >= 2 && (
+        <div
+          key={`batch-${batchOffset}-c2`}
+          style={spotsPool[1].style}
+          className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
+        >
+          {renderCard(
+            allAppleNotifications[(batchOffset + 1) % allAppleNotifications.length],
+            spotsPool[1].isDepth,
+            '',
+            false,
+            isExiting
+          )}
+        </div>
+      )}
 
-      {/* Dynamic Card C: Alternating Lower Left / Lower Right */}
-      <div
-        key={activeCards.cardC.key}
-        style={spotC.style}
-        className={`hidden md:flex absolute select-none pointer-events-none transition-all duration-700 ${
-          spotC.isDepth ? 'z-0' : 'z-10'
-        }`}
-      >
-        {renderCard(allAppleNotifications[activeCards.cardC.notifIdx], spotC.isDepth)}
-      </div>
+      {/* Popup 3: Bottom-Left (Visible in Steps 3, 4, 5) */}
+      {desktopStep >= 3 && (
+        <div
+          key={`batch-${batchOffset}-c3`}
+          style={spotsPool[2].style}
+          className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
+        >
+          {renderCard(
+            allAppleNotifications[(batchOffset + 2) % allAppleNotifications.length],
+            spotsPool[2].isDepth,
+            '',
+            false,
+            isExiting
+          )}
+        </div>
+      )}
 
-      {/* MOBILE POPUP: Absolutely positioned in safe top/bottom zones (Zero layout push to headline) */}
+      {/* Popup 4: Bottom-Right (Visible in Steps 4, 5) */}
+      {desktopStep >= 4 && (
+        <div
+          key={`batch-${batchOffset}-c4`}
+          style={spotsPool[3].style}
+          className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
+        >
+          {renderCard(
+            allAppleNotifications[(batchOffset + 3) % allAppleNotifications.length],
+            spotsPool[3].isDepth,
+            '',
+            false,
+            isExiting
+          )}
+        </div>
+      )}
+
+      {/* =========================================================================
+          MOBILE NOTIFICATION: Subtle, Compact Apple Pill (Never overpowers headline)
+          ========================================================================= */}
       <div
         key={mobileState.key}
         className={`md:hidden absolute ${
@@ -281,15 +352,21 @@ export default function Hero({ onOpenForm }) {
         {renderCard(
           allAppleNotifications[mobileState.notifIdx],
           false,
-          currentMobileSpot.rotate
+          currentMobileSpot.rotate,
+          true,
+          false
         )}
       </div>
 
-      {/* CENTER STAGE HERO CONTENT */}
-      <div className="max-w-xs xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto flex flex-col items-center relative z-20 px-2 sm:px-4">
+      {/* =========================================================================
+          CENTER STAGE HERO CONTENT
+          - Headline: Massive & Bold on Mobile, Commanding on Desktop
+          - Dynamic word ("month.") perfectly aligned to straight text baseline
+          ========================================================================= */}
+      <div className="max-w-[340px] xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto flex flex-col items-center relative z-20 px-1 sm:px-4">
         
-        {/* Headline: Grand & Bold on Mobile, Massive on Desktop with Dynamic Time Flip */}
-        <h1 className="text-[36px] xs:text-[44px] sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[80px] font-black text-ink tracking-tight leading-[1.06] mb-5 sm:mb-8 animate-blur-in delay-150">
+        {/* Dominant Headline: Clear Primary Focus */}
+        <h1 className="text-[42px] xs:text-[48px] sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[80px] font-black text-ink tracking-tight leading-[1.03] sm:leading-[1.06] mb-5 sm:mb-8 animate-blur-in delay-150">
           Get high-ticket interior clients every{' '}
           <span className="word-flip-container">
             {/* Invisible sizer anchor frozen to widest word ('month.') guaranteeing 0px line movement */}
@@ -306,7 +383,7 @@ export default function Hero({ onOpenForm }) {
           </span>
         </h1>
 
-        {/* Primary CTA Button: Small & Sleek on Mobile */}
+        {/* Primary CTA Button */}
         <div className="w-full flex justify-center animate-blur-in delay-300">
           <button
             onClick={onOpenForm}

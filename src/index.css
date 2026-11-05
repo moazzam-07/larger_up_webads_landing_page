@@ -126,14 +126,15 @@
   will-change: transform, opacity, filter;
 }
 
-/* Dynamic Word Flip Isolation - Zero movement to the rest of the line */
+/* Dynamic Word Flip Isolation - Exact straight baseline alignment with zero line jitter */
 .word-flip-container {
   display: inline-grid;
   grid-template-areas: "stack";
   vertical-align: baseline;
   text-align: left;
-  contain: layout;
   position: relative;
+  /* Baseline fine-tuning so word sits on the exact same straight line as preceding text */
+  transform: translateY(0.04em);
 }
 
 .word-flip-sizer {
@@ -199,6 +200,71 @@
   backface-visibility: hidden;
   will-change: transform, opacity, filter;
 }
+
+/* All 4 Desktop Popups Exit Together Simultaneously with Blur & Scale */
+@keyframes applePopExitAll {
+  0% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(14px);
+    transform: scale(0.93) translateY(8px);
+  }
+}
+
+.animate-apple-exit-all {
+  animation: applePopExitAll 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+/* Mobile Menu Sheet Dropdown Animation */
+@keyframes mobileMenuCardSlide {
+  0% {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translateY(-22px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-mobile-menu {
+  animation: mobileMenuCardSlide 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity, filter;
+}
+
+/* Staggered Navigation Items inside Mobile Menu */
+@keyframes mobileItemFadeIn {
+  0% {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0);
+  }
+}
+
+.animate-mobile-item {
+  animation: mobileItemFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity, filter;
+}
+
+.delay-item-1 { animation-delay: 40ms; }
+.delay-item-2 { animation-delay: 80ms; }
+.delay-item-3 { animation-delay: 120ms; }
+.delay-item-4 { animation-delay: 160ms; }
+.delay-item-5 { animation-delay: 200ms; }
+.delay-item-6 { animation-delay: 240ms; }
+.delay-item-7 { animation-delay: 280ms; }
 
 /* Floating notifications & blur transition */
 @keyframes notificationBlurIn {
