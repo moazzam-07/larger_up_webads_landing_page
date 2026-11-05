@@ -61,33 +61,84 @@ const allAppleNotifications = [
   },
 ];
 
-// Curated safe spots across desktop canvas framing the headline:
-// 4 corners/shoulders well away from center text & CTA
-const DESKTOP_SPOTS = [
-  // Spot 0: Top-Left Shoulder
-  { style: { top: '13%', left: '3.5%', transform: 'rotate(-1.5deg)' }, isDepth: false },
-  // Spot 1: Top-Right Shoulder
-  { style: { top: '13%', right: '3.5%', transform: 'rotate(1.5deg)' }, isDepth: false },
-  // Spot 2: Bottom-Left Flank
-  { style: { bottom: '11%', left: '4%', transform: 'rotate(1deg)' }, isDepth: false },
-  // Spot 3: Bottom-Right Flank
-  { style: { bottom: '11%', right: '4%', transform: 'rotate(-1deg)' }, isDepth: false },
-];
+// Curated constellations across desktop canvas:
+// In EVERY iteration, locations and sequence are completely different and dynamic across the canvas.
+// Cards appear in floating shoulders, sub-header insets, lower flanks, and outposts—NEVER just 4 fixed corners!
+// All coordinates are strictly positioned outside the headline horizontal band to guarantee ZERO text overlap.
+const DESKTOP_CONSTELLATIONS = [
+  // Constellation 0: High-Left Inward -> Low-Right Inward -> High-Right Edge -> Low-Left Outer
+  [
+    { style: { top: '19%', left: '15%', transform: 'rotate(-2deg)' } },
+    { style: { bottom: '23%', right: '17%', transform: 'rotate(1.5deg)' } },
+    { style: { top: '13%', right: '4%', transform: 'rotate(2deg)' } },
+    { style: { bottom: '11%', left: '4%', transform: 'rotate(-1.5deg)' } },
+  ],
 
-// Alternate subtle variations per batch for organic realism
-const DESKTOP_SPOTS_ALT = [
-  { style: { top: '17%', left: '5.5%', transform: 'rotate(1deg)' }, isDepth: false },
-  { style: { top: '17%', right: '5.5%', transform: 'rotate(-1.2deg)' }, isDepth: false },
-  { style: { bottom: '15%', left: '5.5%', transform: 'rotate(-1deg)' }, isDepth: false },
-  { style: { bottom: '15%', right: '5.5%', transform: 'rotate(1.2deg)' }, isDepth: false },
+  // Constellation 1: High-Right Inward -> Low-Left Inward -> High-Left Edge -> Low-Right Outer
+  [
+    { style: { top: '21%', right: '17%', transform: 'rotate(-1.5deg)' } },
+    { style: { bottom: '24%', left: '16%', transform: 'rotate(2deg)' } },
+    { style: { top: '12%', left: '4%', transform: 'rotate(1.5deg)' } },
+    { style: { bottom: '12%', right: '4%', transform: 'rotate(-2deg)' } },
+  ],
+
+  // Constellation 2: High-Left Sub-Header -> Low-Left Mid -> High-Right Outer -> Low-Right Inward
+  [
+    { style: { top: '15%', left: '21%', transform: 'rotate(1deg)' } },
+    { style: { bottom: '16%', left: '11%', transform: 'rotate(-2deg)' } },
+    { style: { top: '14%', right: '5%', transform: 'rotate(-1deg)' } },
+    { style: { bottom: '25%', right: '16%', transform: 'rotate(2deg)' } },
+  ],
+
+  // Constellation 3: High-Right Sub-Header -> Low-Right Mid -> High-Left Outer -> Low-Left Inward
+  [
+    { style: { top: '15%', right: '21%', transform: 'rotate(-1deg)' } },
+    { style: { bottom: '16%', right: '11%', transform: 'rotate(2deg)' } },
+    { style: { top: '14%', left: '5%', transform: 'rotate(1deg)' } },
+    { style: { bottom: '25%', left: '16%', transform: 'rotate(-2deg)' } },
+  ],
+
+  // Constellation 4: High-Left Mid -> High-Right Mid -> Low-Left Outer -> Low-Right Inward
+  [
+    { style: { top: '23%', left: '12%', transform: 'rotate(-2deg)' } },
+    { style: { top: '18%', right: '14%', transform: 'rotate(2deg)' } },
+    { style: { bottom: '11%', left: '5%', transform: 'rotate(1deg)' } },
+    { style: { bottom: '21%', right: '19%', transform: 'rotate(-1.5deg)' } },
+  ],
+
+  // Constellation 5: Low-Left Inward -> High-Left Edge -> Low-Right Outer -> High-Right Inward
+  [
+    { style: { bottom: '22%', left: '20%', transform: 'rotate(1.5deg)' } },
+    { style: { top: '12%', left: '6%', transform: 'rotate(-1.5deg)' } },
+    { style: { bottom: '12%', right: '5%', transform: 'rotate(2deg)' } },
+    { style: { top: '24%', right: '13%', transform: 'rotate(-2deg)' } },
+  ],
+
+  // Constellation 6: High-Left Outer -> High-Right Inward -> Low-Left Inward -> Low-Right Outer
+  [
+    { style: { top: '16%', left: '4%', transform: 'rotate(-1deg)' } },
+    { style: { top: '22%', right: '19%', transform: 'rotate(2.5deg)' } },
+    { style: { bottom: '19%', left: '14%', transform: 'rotate(-2deg)' } },
+    { style: { bottom: '13%', right: '6%', transform: 'rotate(1deg)' } },
+  ],
+
+  // Constellation 7: High-Right Outer -> Low-Right Inward -> High-Left Inward -> Low-Left Outer
+  [
+    { style: { top: '16%', right: '4%', transform: 'rotate(1deg)' } },
+    { style: { bottom: '19%', right: '14%', transform: 'rotate(-2.5deg)' } },
+    { style: { top: '22%', left: '19%', transform: 'rotate(-2deg)' } },
+    { style: { bottom: '13%', left: '6%', transform: 'rotate(1.5deg)' } },
+  ],
 ];
 
 // Mobile safe zones (alternating dynamically above and below the headline)
 const MOBILE_SAFE_SPOTS = [
-  { position: 'top', align: 'justify-start pl-2', rotate: 'rotate(-1deg)' },
-  { position: 'bottom', align: 'justify-end pr-2', rotate: 'rotate(1deg)' },
-  { position: 'top', align: 'justify-end pr-2', rotate: 'rotate(0.5deg)' },
-  { position: 'bottom', align: 'justify-start pl-2', rotate: 'rotate(-0.5deg)' },
+  { position: 'top', align: 'justify-start pl-3', rotate: 'rotate(-1.5deg)' },
+  { position: 'bottom', align: 'justify-end pr-3', rotate: 'rotate(1.5deg)' },
+  { position: 'top', align: 'justify-end pr-3', rotate: 'rotate(1deg)' },
+  { position: 'bottom', align: 'justify-start pl-3', rotate: 'rotate(-1deg)' },
+  { position: 'top', align: 'justify-center', rotate: 'rotate(0deg)' },
+  { position: 'bottom', align: 'justify-center', rotate: 'rotate(-0.5deg)' },
 ];
 
 const DYNAMIC_TIME_WORDS = ['month.', 'week.', 'day.', 'hour.'];
@@ -97,12 +148,12 @@ export default function Hero({ onOpenForm }) {
   const [wordIdx, setWordIdx] = useState(0);
 
   // Desktop 4 notifications sequence state:
-  // Step 1: Card 1 enters
-  // Step 2: Card 2 enters (Cards 1 & 2 visible)
-  // Step 3: Card 3 enters (Cards 1, 2, 3 visible)
-  // Step 4: Card 4 enters (All 4 cards visible, hold)
+  // Step 1: Card 1 enters in its unique location
+  // Step 2: Card 2 enters in its unique location
+  // Step 3: Card 3 enters in its unique location
+  // Step 4: Card 4 enters in its unique location (All 4 cards visible, hold)
   // Step 5: All 4 cards disappear SIMULTANEOUSLY (isExiting = true)
-  // Reset: batchOffset += 4, step = 1
+  // Reset: batchCycle increments -> spawns a brand new constellation of locations!
   const [desktopStep, setDesktopStep] = useState(1);
   const [batchOffset, setBatchOffset] = useState(0);
   const [batchCycle, setBatchCycle] = useState(0);
@@ -144,7 +195,7 @@ export default function Hero({ onOpenForm }) {
       timerId = setTimeout(() => {
         setBatchOffset((prev) => (prev + 4) % allAppleNotifications.length);
         setBatchCycle((prev) => prev + 1);
-        setDesktopStep(1); // Restart with Card 1 of next batch
+        setDesktopStep(1); // Restart with a brand new constellation of positions!
       }, 550);
     }
 
@@ -203,7 +254,7 @@ export default function Hero({ onOpenForm }) {
   };
 
   // Card component supporting desktop staggered/simultaneous exit & compact mobile sizing
-  const renderCard = (item, isDepth = false, extraClasses = '', isMobile = false, isExiting = false) => {
+  const renderCard = (item, extraClasses = '', isMobile = false, isExiting = false) => {
     if (isMobile) {
       return (
         <div
@@ -232,12 +283,8 @@ export default function Hero({ onOpenForm }) {
 
     return (
       <div
-        className={`w-[260px] lg:w-[275px] bg-white/85 backdrop-blur-2xl border border-black/[0.08] rounded-[20px] p-2.5 sm:p-3 shadow-[0_12px_36px_rgba(0,0,0,0.08)] flex items-start gap-2.5 text-left pointer-events-auto transition-all ${
+        className={`w-[250px] lg:w-[265px] bg-white/85 backdrop-blur-2xl border border-black/[0.08] rounded-[20px] p-2.5 sm:p-3 shadow-[0_12px_36px_rgba(0,0,0,0.08)] flex items-start gap-2.5 text-left pointer-events-auto transition-all opacity-100 scale-100 z-10 hover:scale-[1.02] ${
           isExiting ? 'animate-apple-exit-all' : 'animate-apple-pop'
-        } ${
-          isDepth
-            ? 'opacity-40 blur-[1px] scale-90 -z-10'
-            : 'opacity-100 scale-100 z-10 hover:scale-[1.02]'
         } ${extraClasses}`}
       >
         {renderAppIcon(item.app, false)}
@@ -262,26 +309,29 @@ export default function Hero({ onOpenForm }) {
   };
 
   const isExiting = desktopStep === 5;
-  const spotsPool = batchCycle % 2 === 0 ? DESKTOP_SPOTS : DESKTOP_SPOTS_ALT;
+  // Select active constellation based on cycle index: completely different locations every iteration!
+  const currentConstellation = DESKTOP_CONSTELLATIONS[batchCycle % DESKTOP_CONSTELLATIONS.length];
   const currentMobileSpot = MOBILE_SAFE_SPOTS[mobileState.spotIdx];
 
   return (
     <section className="min-h-[100dvh] w-full flex flex-col items-center justify-center relative px-4 sm:px-6 pt-20 pb-16 sm:pt-24 sm:pb-20 text-center max-w-[1700px] mx-auto overflow-hidden">
       
       {/* =========================================================================
-          DESKTOP 4 POPUPS: Appear One-by-One, Disappear All Together Simultaneously
+          DESKTOP 4 POPUPS:
+          - Appear One-by-One in random, varied locations across the canvas (never just 4 corners!)
+          - Disappear All Together Simultaneously
+          - In every cycle, a completely new constellation of coordinates is used
           ========================================================================= */}
       
-      {/* Popup 1: Top-Left (Visible in Steps 1, 2, 3, 4, 5) */}
+      {/* Popup 1 (Visible in Steps 1, 2, 3, 4, 5) */}
       {desktopStep >= 1 && (
         <div
-          key={`batch-${batchOffset}-c1`}
-          style={spotsPool[0].style}
+          key={`batch-${batchCycle}-c1`}
+          style={currentConstellation[0].style}
           className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
         >
           {renderCard(
             allAppleNotifications[(batchOffset + 0) % allAppleNotifications.length],
-            spotsPool[0].isDepth,
             '',
             false,
             isExiting
@@ -289,16 +339,15 @@ export default function Hero({ onOpenForm }) {
         </div>
       )}
 
-      {/* Popup 2: Top-Right (Visible in Steps 2, 3, 4, 5) */}
+      {/* Popup 2 (Visible in Steps 2, 3, 4, 5) */}
       {desktopStep >= 2 && (
         <div
-          key={`batch-${batchOffset}-c2`}
-          style={spotsPool[1].style}
+          key={`batch-${batchCycle}-c2`}
+          style={currentConstellation[1].style}
           className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
         >
           {renderCard(
             allAppleNotifications[(batchOffset + 1) % allAppleNotifications.length],
-            spotsPool[1].isDepth,
             '',
             false,
             isExiting
@@ -306,16 +355,15 @@ export default function Hero({ onOpenForm }) {
         </div>
       )}
 
-      {/* Popup 3: Bottom-Left (Visible in Steps 3, 4, 5) */}
+      {/* Popup 3 (Visible in Steps 3, 4, 5) */}
       {desktopStep >= 3 && (
         <div
-          key={`batch-${batchOffset}-c3`}
-          style={spotsPool[2].style}
+          key={`batch-${batchCycle}-c3`}
+          style={currentConstellation[2].style}
           className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
         >
           {renderCard(
             allAppleNotifications[(batchOffset + 2) % allAppleNotifications.length],
-            spotsPool[2].isDepth,
             '',
             false,
             isExiting
@@ -323,16 +371,15 @@ export default function Hero({ onOpenForm }) {
         </div>
       )}
 
-      {/* Popup 4: Bottom-Right (Visible in Steps 4, 5) */}
+      {/* Popup 4 (Visible in Steps 4, 5) */}
       {desktopStep >= 4 && (
         <div
-          key={`batch-${batchOffset}-c4`}
-          style={spotsPool[3].style}
+          key={`batch-${batchCycle}-c4`}
+          style={currentConstellation[3].style}
           className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
         >
           {renderCard(
             allAppleNotifications[(batchOffset + 3) % allAppleNotifications.length],
-            spotsPool[3].isDepth,
             '',
             false,
             isExiting
@@ -351,7 +398,6 @@ export default function Hero({ onOpenForm }) {
       >
         {renderCard(
           allAppleNotifications[mobileState.notifIdx],
-          false,
           currentMobileSpot.rotate,
           true,
           false
