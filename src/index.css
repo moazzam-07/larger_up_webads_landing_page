@@ -126,6 +126,30 @@
   will-change: transform, opacity, filter;
 }
 
+/* Dynamic Word Flip Isolation - Zero movement to the rest of the line */
+.word-flip-container {
+  display: inline-grid;
+  grid-template-areas: "stack";
+  vertical-align: baseline;
+  text-align: left;
+  contain: layout;
+  position: relative;
+}
+
+.word-flip-sizer {
+  grid-area: stack;
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+}
+
+.word-flip-item {
+  grid-area: stack;
+  display: inline-block;
+  white-space: nowrap;
+}
+
 /* Dynamic Word 3D Flip with Gaussian Blur Entrance */
 @keyframes wordFlipBlur {
   0% {

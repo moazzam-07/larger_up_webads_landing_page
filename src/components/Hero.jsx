@@ -271,31 +271,38 @@ export default function Hero({ onOpenForm }) {
         {renderCard(allAppleNotifications[activeCards.cardC.notifIdx], spotC.isDepth)}
       </div>
 
+      {/* MOBILE POPUP: Absolutely positioned in safe top/bottom zones (Zero layout push to headline) */}
+      <div
+        key={mobileState.key}
+        className={`md:hidden absolute ${
+          currentMobileSpot.position === 'top' ? 'top-20 sm:top-24' : 'bottom-10 sm:bottom-14'
+        } left-0 right-0 px-4 flex ${currentMobileSpot.align} animate-apple-pop select-none z-10 pointer-events-none`}
+      >
+        {renderCard(
+          allAppleNotifications[mobileState.notifIdx],
+          false,
+          currentMobileSpot.rotate
+        )}
+      </div>
+
       {/* CENTER STAGE HERO CONTENT */}
       <div className="max-w-xs xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto flex flex-col items-center relative z-20 px-2 sm:px-4">
         
-        {/* MOBILE POPUP: Shows above headline when spot is 'top' */}
-        {currentMobileSpot.position === 'top' && (
-          <div
-            key={mobileState.key}
-            className={`md:hidden w-full flex ${currentMobileSpot.align} mb-4 sm:mb-6 animate-apple-pop select-none`}
-          >
-            {renderCard(
-              allAppleNotifications[mobileState.notifIdx],
-              false,
-              currentMobileSpot.rotate
-            )}
-          </div>
-        )}
-
         {/* Headline: Grand & Bold on Mobile, Massive on Desktop with Dynamic Time Flip */}
         <h1 className="text-[36px] xs:text-[44px] sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[80px] font-black text-ink tracking-tight leading-[1.06] mb-5 sm:mb-8 animate-blur-in delay-150">
           Get high-ticket interior clients every{' '}
-          <span
-            key={`headline-word-${wordIdx}`}
-            className="inline-block animate-word-flip text-ink"
-          >
-            {DYNAMIC_TIME_WORDS[wordIdx]}
+          <span className="word-flip-container">
+            {/* Invisible sizer anchor frozen to widest word ('month.') guaranteeing 0px line movement */}
+            <span className="word-flip-sizer" aria-hidden="true">
+              month.
+            </span>
+            {/* Active dynamic flipping word */}
+            <span
+              key={`headline-word-${wordIdx}`}
+              className="word-flip-item animate-word-flip text-ink"
+            >
+              {DYNAMIC_TIME_WORDS[wordIdx]}
+            </span>
           </span>
         </h1>
 
@@ -309,20 +316,6 @@ export default function Hero({ onOpenForm }) {
             <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/80" />
           </button>
         </div>
-
-        {/* MOBILE POPUP: Shows below CTA button when spot is 'bottom' */}
-        {currentMobileSpot.position === 'bottom' && (
-          <div
-            key={mobileState.key}
-            className={`md:hidden w-full flex ${currentMobileSpot.align} mt-5 sm:mt-7 animate-apple-pop select-none`}
-          >
-            {renderCard(
-              allAppleNotifications[mobileState.notifIdx],
-              false,
-              currentMobileSpot.rotate
-            )}
-          </div>
-        )}
 
       </div>
     </section>
