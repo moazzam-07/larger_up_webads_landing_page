@@ -93,7 +93,12 @@ const MOBILE_SAFE_SPOTS = [
   { position: 'bottom', align: 'justify-start pl-1 sm:pl-2', rotate: 'rotate(-0.5deg)' },
 ];
 
+const DYNAMIC_TIME_WORDS = ['month.', 'week.', 'day.', 'hour.'];
+
 export default function Hero({ onOpenForm }) {
+  // Dynamic headline flipping word index (month -> week -> day -> hour -> month)
+  const [wordIdx, setWordIdx] = useState(0);
+
   // Desktop dynamic notification cards: appear spontaneously in changing safe spots
   const [activeCards, setActiveCards] = useState({
     cardA: { notifIdx: 0, spotIdx: 0, key: 'card-a-0' },
@@ -162,7 +167,15 @@ export default function Hero({ onOpenForm }) {
       }
     }, 2800);
 
-    return () => clearInterval(interval);
+    // Headline dynamic word rotation: month -> week -> day -> hour -> month
+    const wordInterval = setInterval(() => {
+      setWordIdx((prev) => (prev + 1) % DYNAMIC_TIME_WORDS.length);
+    }, 2600);
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(wordInterval);
+    };
   }, []);
 
   const renderAppIcon = (app) => {
@@ -275,9 +288,15 @@ export default function Hero({ onOpenForm }) {
           </div>
         )}
 
-        {/* Headline: Grand & Bold on Mobile, Massive on Desktop */}
+        {/* Headline: Grand & Bold on Mobile, Massive on Desktop with Dynamic Time Flip */}
         <h1 className="text-[36px] xs:text-[44px] sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[80px] font-black text-ink tracking-tight leading-[1.06] mb-5 sm:mb-8 animate-blur-in delay-150">
-          Get high-ticket interior clients every month.
+          Get high-ticket interior clients every{' '}
+          <span
+            key={`headline-word-${wordIdx}`}
+            className="inline-block animate-word-flip text-ink"
+          >
+            {DYNAMIC_TIME_WORDS[wordIdx]}
+          </span>
         </h1>
 
         {/* Primary CTA Button: Small & Sleek on Mobile */}

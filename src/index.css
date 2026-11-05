@@ -126,6 +126,32 @@
   will-change: transform, opacity, filter;
 }
 
+/* Dynamic Word 3D Flip with Gaussian Blur Entrance */
+@keyframes wordFlipBlur {
+  0% {
+    opacity: 0;
+    filter: blur(14px);
+    transform: perspective(800px) rotateX(68deg) translateY(-18px) scale(0.93);
+  }
+  60% {
+    filter: blur(2px);
+    transform: perspective(800px) rotateX(-4deg) translateY(2px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: perspective(800px) rotateX(0deg) translateY(0px) scale(1);
+  }
+}
+
+.animate-word-flip {
+  display: inline-block;
+  animation: wordFlipBlur 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: 50% 0%;
+  backface-visibility: hidden;
+  will-change: transform, opacity, filter;
+}
+
 /* 3D Flip Card Transition with Blur */
 @keyframes cardFlipDown {
   0% {
