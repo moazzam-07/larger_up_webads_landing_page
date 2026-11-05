@@ -7,7 +7,7 @@ export default function LeadCaptureForm() {
     fullName: '',
     email: '',
     phone: '',
-    role: 'studio_owner',
+    role: '',
     notes: '',
   });
 
@@ -23,6 +23,13 @@ export default function LeadCaptureForm() {
     e.preventDefault();
     setStatus('submitting');
     setErrorMessage('');
+
+    // Role validation
+    if (!formData.role) {
+      setStatus('error');
+      setErrorMessage('Please select who you are (Studio Owner, Freelancer, etc.).');
+      return;
+    }
 
     // Phone validation
     const cleanPhone = formData.phone.replace(/[^0-9]/g, '');
@@ -148,10 +155,14 @@ export default function LeadCaptureForm() {
                 </label>
                 <select
                   name="role"
+                  required
                   value={formData.role}
                   onChange={handleChange}
-                  className="w-full bg-field text-ink text-sm sm:text-base rounded-xl px-3.5 sm:px-4 py-2.5 sm:py-3 outline-none focus:ring-2 focus:ring-ink transition-all cursor-pointer"
+                  className={`w-full bg-field ${
+                    formData.role ? 'text-ink' : 'text-muted/60'
+                  } text-sm sm:text-base rounded-xl px-3.5 sm:px-4 py-2.5 sm:py-3 outline-none focus:ring-2 focus:ring-ink transition-all cursor-pointer`}
                 >
+                  <option value="" disabled>Select</option>
                   <option value="studio_owner">Studio Owner</option>
                   <option value="freelancer">Freelancer</option>
                   <option value="employee">I work under somebody</option>
