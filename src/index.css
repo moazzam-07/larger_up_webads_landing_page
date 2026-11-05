@@ -216,7 +216,7 @@
 }
 
 .animate-apple-exit-all {
-  animation: applePopExitAll 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: applePopExitAll 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity, filter;
 }
 

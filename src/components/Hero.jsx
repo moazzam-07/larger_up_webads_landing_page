@@ -170,33 +170,33 @@ export default function Hero({ onOpenForm }) {
     let timerId;
 
     if (desktopStep === 1) {
-      // Card 1 has appeared, wait 950ms then show Card 2
+      // Card 1 has appeared, wait 850ms then show Card 2
       timerId = setTimeout(() => {
         setDesktopStep(2);
-      }, 950);
+      }, 850);
     } else if (desktopStep === 2) {
-      // Card 2 has appeared, wait 950ms then show Card 3
+      // Card 2 has appeared, wait 850ms then show Card 3
       timerId = setTimeout(() => {
         setDesktopStep(3);
-      }, 950);
+      }, 850);
     } else if (desktopStep === 3) {
-      // Card 3 has appeared, wait 950ms then show Card 4
+      // Card 3 has appeared, wait 850ms then show Card 4
       timerId = setTimeout(() => {
         setDesktopStep(4);
-      }, 950);
+      }, 850);
     } else if (desktopStep === 4) {
       // All 4 cards are now visible on screen together!
-      // Keep them visible together for 2.6 seconds so the viewer can read them comfortably
+      // Hold briefly (~1.1s) so user sees the complete constellation without lingering too long
       timerId = setTimeout(() => {
         setDesktopStep(5); // Trigger simultaneous exit
-      }, 2600);
+      }, 1100);
     } else if (desktopStep === 5) {
-      // Exit animation duration (550ms) - all 4 cards fade & blur out together
+      // Fast, smooth simultaneous exit (450ms)
       timerId = setTimeout(() => {
         setBatchOffset((prev) => (prev + 4) % allAppleNotifications.length);
         setBatchCycle((prev) => prev + 1);
         setDesktopStep(1); // Restart with a brand new constellation of positions!
-      }, 550);
+      }, 450);
     }
 
     return () => clearTimeout(timerId);
