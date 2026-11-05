@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import PortfolioCreations from './components/PortfolioCreations';
@@ -9,11 +9,8 @@ import ReviewGrid from './components/ReviewGrid';
 import LeadCaptureForm from './components/LeadCaptureForm';
 import FaqSection from './components/FaqSection';
 import Footer from './components/Footer';
-import VideoModal from './components/VideoModal';
 
 export default function App() {
-  const [selectedVideo, setSelectedVideo] = useState(null);
-
   const handleOpenForm = () => {
     const el = document.getElementById('apply-form');
     if (el) {
@@ -44,11 +41,8 @@ export default function App() {
         {/* Brand New: Creations / Built Websites Portfolio (Direct click to live sites) */}
         <PortfolioCreations />
 
-        {/* 3 Clean Video Case Study Full-Overlay Cards */}
-        <VideoTestimonials
-          onSelectVideo={(video) => setSelectedVideo(video)}
-          onOpenForm={handleOpenForm}
-        />
+        {/* 3 Clean Video Case Study Cards (Direct inline video playback - No popup) */}
+        <VideoTestimonials onOpenForm={handleOpenForm} />
 
         {/* The Old Way vs The LargerUp Way */}
         <ComparisonTable onOpenForm={handleOpenForm} />
@@ -68,14 +62,6 @@ export default function App() {
 
       {/* Minimalist Inverted Footer */}
       <Footer onOpenForm={handleOpenForm} />
-
-      {/* Video Modal Player */}
-      <VideoModal
-        isOpen={!!selectedVideo}
-        videoData={selectedVideo}
-        onClose={() => setSelectedVideo(null)}
-        onOpenForm={handleOpenForm}
-      />
 
       {/* Floating WhatsApp Action (Icon Only on All Devices) */}
       <a
