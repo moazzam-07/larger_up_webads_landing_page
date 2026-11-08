@@ -131,6 +131,7 @@ export default function VideoModal({
           src={videoData.videoUrl}
           poster={videoData.poster}
           playsInline
+          preload="auto"
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded}
           onClick={handleTogglePlayPause}

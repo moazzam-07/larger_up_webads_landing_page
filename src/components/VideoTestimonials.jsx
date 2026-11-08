@@ -65,21 +65,20 @@ function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop, onOpenModal }
 
   const handleStartPlay = () => {
     onPlay(item.id);
+    setIsPlaying(true);
+    triggerControlsVisibility();
     if (videoRef.current) {
-      videoRef.current.play().then(() => {
-        setIsPlaying(true);
-        triggerControlsVisibility();
-      }).catch(() => {
-        // Fallback for strict browser autoplay policies
-        if (videoRef.current) {
-          videoRef.current.muted = true;
-          setIsMuted(true);
-          videoRef.current.play().then(() => {
-            setIsPlaying(true);
-            triggerControlsVisibility();
-          });
-        }
-      });
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback for strict browser autoplay policies
+          if (videoRef.current) {
+            videoRef.current.muted = true;
+            setIsMuted(true);
+            videoRef.current.play();
+          }
+        });
+      }
     }
   };
 
@@ -160,7 +159,7 @@ function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop, onOpenModal }
           src={item.videoUrl}
           poster={item.poster}
           playsInline
-          preload="metadata"
+          preload="auto"
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded}
           onClick={isActive ? handleTogglePlayPause : handleStartPlay}
