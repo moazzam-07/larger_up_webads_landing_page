@@ -131,14 +131,40 @@ const DESKTOP_CONSTELLATIONS = [
   ],
 ];
 
-// Mobile safe zones (alternating dynamically above and below the headline)
-const MOBILE_SAFE_SPOTS = [
-  { position: 'top', align: 'justify-start pl-3', rotate: 'rotate(-1.5deg)' },
-  { position: 'bottom', align: 'justify-end pr-3', rotate: 'rotate(1.5deg)' },
-  { position: 'top', align: 'justify-end pr-3', rotate: 'rotate(1deg)' },
-  { position: 'bottom', align: 'justify-start pl-3', rotate: 'rotate(-1deg)' },
-  { position: 'top', align: 'justify-center', rotate: 'rotate(0deg)' },
-  { position: 'bottom', align: 'justify-center', rotate: 'rotate(-0.5deg)' },
+// Mobile constellations: 4 popups appearing in safe margins around the headline
+// 2 positioned above the headline, 2 positioned below the CTA button
+const MOBILE_CONSTELLATIONS = [
+  // Constellation 0: Top-Left -> Top-Right -> Bottom-Left -> Bottom-Right
+  [
+    { style: { top: '74px', left: '14px', transform: 'rotate(-1deg)' } },
+    { style: { top: '118px', right: '14px', transform: 'rotate(1.5deg)' } },
+    { style: { bottom: '150px', left: '16px', transform: 'rotate(-1.5deg)' } },
+    { style: { bottom: '98px', right: '16px', transform: 'rotate(2deg)' } },
+  ],
+
+  // Constellation 1: Top-Right -> Top-Left -> Bottom-Right -> Bottom-Left
+  [
+    { style: { top: '72px', right: '16px', transform: 'rotate(1deg)' } },
+    { style: { top: '118px', left: '14px', transform: 'rotate(-2deg)' } },
+    { style: { bottom: '150px', right: '16px', transform: 'rotate(1.5deg)' } },
+    { style: { bottom: '98px', left: '14px', transform: 'rotate(-1deg)' } },
+  ],
+
+  // Constellation 2: Top-Left higher -> Top-Right lower -> Bottom-Right higher -> Bottom-Left lower
+  [
+    { style: { top: '76px', left: '16px', transform: 'rotate(1.5deg)' } },
+    { style: { top: '122px', right: '16px', transform: 'rotate(-1deg)' } },
+    { style: { bottom: '154px', right: '18px', transform: 'rotate(-2deg)' } },
+    { style: { bottom: '95px', left: '16px', transform: 'rotate(1deg)' } },
+  ],
+
+  // Constellation 3: Top-Right higher -> Top-Left lower -> Bottom-Left higher -> Bottom-Right lower
+  [
+    { style: { top: '70px', right: '18px', transform: 'rotate(-1deg)' } },
+    { style: { top: '116px', left: '16px', transform: 'rotate(2deg)' } },
+    { style: { bottom: '154px', left: '16px', transform: 'rotate(1.5deg)' } },
+    { style: { bottom: '95px', right: '18px', transform: 'rotate(-1.5deg)' } },
+  ],
 ];
 
 const DYNAMIC_TIME_WORDS = ['month.', 'week.', 'day.', 'hour.'];
@@ -147,90 +173,65 @@ export default function Hero({ onOpenForm }) {
   // Dynamic headline flipping word index (month -> week -> day -> hour -> month)
   const [wordIdx, setWordIdx] = useState(0);
 
-  // Desktop 4 notifications sequence state:
+  // 4 Notifications sequence state (Unified for both Desktop & Mobile):
   // Step 1: Card 1 enters in its unique location
   // Step 2: Card 2 enters in its unique location
   // Step 3: Card 3 enters in its unique location
   // Step 4: Card 4 enters in its unique location (All 4 cards visible, hold)
   // Step 5: All 4 cards disappear SIMULTANEOUSLY (isExiting = true)
   // Reset: batchCycle increments -> spawns a brand new constellation of locations!
-  const [desktopStep, setDesktopStep] = useState(1);
+  const [notifStep, setNotifStep] = useState(1);
   const [batchOffset, setBatchOffset] = useState(0);
   const [batchCycle, setBatchCycle] = useState(0);
 
-  // Mobile dynamic notification state
-  const [mobileState, setMobileState] = useState({
-    notifIdx: 0,
-    spotIdx: 0,
-    key: 'mobile-0',
-  });
-
-  // Desktop Sequence Timer
+  // 4 Popups Sequence Timer (One-by-one entry, simultaneous exit)
   useEffect(() => {
     let timerId;
 
-    if (desktopStep === 1) {
-      // Card 1 has appeared, wait 850ms then show Card 2
+    if (notifStep === 1) {
       timerId = setTimeout(() => {
-        setDesktopStep(2);
+        setNotifStep(2);
       }, 850);
-    } else if (desktopStep === 2) {
-      // Card 2 has appeared, wait 850ms then show Card 3
+    } else if (notifStep === 2) {
       timerId = setTimeout(() => {
-        setDesktopStep(3);
+        setNotifStep(3);
       }, 850);
-    } else if (desktopStep === 3) {
-      // Card 3 has appeared, wait 850ms then show Card 4
+    } else if (notifStep === 3) {
       timerId = setTimeout(() => {
-        setDesktopStep(4);
+        setNotifStep(4);
       }, 850);
-    } else if (desktopStep === 4) {
+    } else if (notifStep === 4) {
       // All 4 cards are now visible on screen together!
       // Hold briefly (~1.1s) so user sees the complete constellation without lingering too long
       timerId = setTimeout(() => {
-        setDesktopStep(5); // Trigger simultaneous exit
+        setNotifStep(5); // Trigger simultaneous exit
       }, 1100);
-    } else if (desktopStep === 5) {
+    } else if (notifStep === 5) {
       // Fast, smooth simultaneous exit (450ms)
       timerId = setTimeout(() => {
         setBatchOffset((prev) => (prev + 4) % allAppleNotifications.length);
         setBatchCycle((prev) => prev + 1);
-        setDesktopStep(1); // Restart with a brand new constellation of positions!
+        setNotifStep(1); // Restart with a brand new constellation of positions!
       }, 450);
     }
 
     return () => clearTimeout(timerId);
-  }, [desktopStep]);
+  }, [notifStep]);
 
-  // Mobile Loop & Headline Word Flip
+  // Headline Word Flip Interval
   useEffect(() => {
-    let tick = 0;
-
-    const mobileInterval = setInterval(() => {
-      tick++;
-      setMobileState({
-        notifIdx: tick % allAppleNotifications.length,
-        spotIdx: tick % MOBILE_SAFE_SPOTS.length,
-        key: `mobile-${tick}`,
-      });
-    }, 2800);
-
-    // Headline dynamic word rotation: month -> week -> day -> hour -> month
     const wordInterval = setInterval(() => {
       setWordIdx((prev) => (prev + 1) % DYNAMIC_TIME_WORDS.length);
     }, 2600);
 
-    return () => {
-      clearInterval(mobileInterval);
-      clearInterval(wordInterval);
-    };
+    return () => clearInterval(wordInterval);
   }, []);
 
   const renderAppIcon = (app, isMobile = false) => {
     const containerClass = isMobile
-      ? 'w-6 h-6 rounded-[8px] bg-ink text-white p-1 flex items-center justify-center shrink-0 shadow-xs'
+      ? 'w-5 h-5 rounded-[6px] bg-ink text-white p-1 flex items-center justify-center shrink-0 shadow-xs'
       : 'w-8 h-8 rounded-xl bg-ink text-white p-1.5 flex items-center justify-center shrink-0 shadow-sm';
-    const iconClass = isMobile ? 'w-3 h-3 text-white' : 'w-4 h-4 text-white';
+    const iconClass = isMobile ? 'w-2.5 h-2.5 text-white' : 'w-4 h-4 text-white';
 
     if (app === 'CALENDAR') {
       return (
@@ -253,30 +254,21 @@ export default function Hero({ onOpenForm }) {
     );
   };
 
-  // Card component supporting desktop staggered/simultaneous exit & compact mobile sizing
+  // Card component:
+  // On Mobile: Ultra-compact, single-line pill (just Icon + Title) as requested, cutting out description & timestamps
+  // On Desktop: Full rich notification card
   const renderCard = (item, extraClasses = '', isMobile = false, isExiting = false) => {
     if (isMobile) {
       return (
         <div
-          className={`w-[210px] xs:w-[225px] bg-white/90 backdrop-blur-2xl border border-black/[0.08] rounded-[15px] p-2 shadow-[0_8px_24px_rgba(0,0,0,0.06)] flex items-start gap-2 text-left pointer-events-auto transition-all animate-apple-pop ${extraClasses}`}
+          className={`bg-white/95 backdrop-blur-2xl border border-black/[0.08] rounded-xl py-1.5 px-2.5 shadow-[0_6px_20px_rgba(0,0,0,0.08)] flex items-center gap-1.5 text-left pointer-events-auto transition-all select-none max-w-[210px] ${
+            isExiting ? 'animate-apple-exit-all' : 'animate-apple-pop'
+          } ${extraClasses}`}
         >
           {renderAppIcon(item.app, true)}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-1 leading-none mb-0.5">
-              <span className="text-[8.5px] font-bold text-muted uppercase tracking-wider">
-                {item.app}
-              </span>
-              <span className="text-[8.5px] text-muted/60 font-normal">
-                {item.time}
-              </span>
-            </div>
-            <p className="text-[11px] font-bold text-ink leading-tight tracking-tight truncate">
-              {item.title}
-            </p>
-            <p className="text-[9.5px] text-muted font-normal leading-tight mt-0.5 truncate">
-              {item.message}
-            </p>
-          </div>
+          <p className="text-[11px] font-bold text-ink leading-none tracking-tight truncate">
+            {item.title}
+          </p>
         </div>
       );
     }
@@ -308,10 +300,9 @@ export default function Hero({ onOpenForm }) {
     );
   };
 
-  const isExiting = desktopStep === 5;
-  // Select active constellation based on cycle index: completely different locations every iteration!
-  const currentConstellation = DESKTOP_CONSTELLATIONS[batchCycle % DESKTOP_CONSTELLATIONS.length];
-  const currentMobileSpot = MOBILE_SAFE_SPOTS[mobileState.spotIdx];
+  const isExiting = notifStep === 5;
+  const currentDesktopConstellation = DESKTOP_CONSTELLATIONS[batchCycle % DESKTOP_CONSTELLATIONS.length];
+  const currentMobileConstellation = MOBILE_CONSTELLATIONS[batchCycle % MOBILE_CONSTELLATIONS.length];
 
   return (
     <section className="min-h-[100dvh] w-full flex flex-col items-center justify-center relative px-4 sm:px-6 pt-20 pb-16 sm:pt-24 sm:pb-20 text-center max-w-[1700px] mx-auto overflow-hidden">
@@ -323,11 +314,11 @@ export default function Hero({ onOpenForm }) {
           - In every cycle, a completely new constellation of coordinates is used
           ========================================================================= */}
       
-      {/* Popup 1 (Visible in Steps 1, 2, 3, 4, 5) */}
-      {desktopStep >= 1 && (
+      {/* Desktop Popup 1 */}
+      {notifStep >= 1 && (
         <div
           key={`batch-${batchCycle}-c1`}
-          style={currentConstellation[0].style}
+          style={currentDesktopConstellation[0].style}
           className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
         >
           {renderCard(
@@ -339,11 +330,11 @@ export default function Hero({ onOpenForm }) {
         </div>
       )}
 
-      {/* Popup 2 (Visible in Steps 2, 3, 4, 5) */}
-      {desktopStep >= 2 && (
+      {/* Desktop Popup 2 */}
+      {notifStep >= 2 && (
         <div
           key={`batch-${batchCycle}-c2`}
-          style={currentConstellation[1].style}
+          style={currentDesktopConstellation[1].style}
           className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
         >
           {renderCard(
@@ -355,11 +346,11 @@ export default function Hero({ onOpenForm }) {
         </div>
       )}
 
-      {/* Popup 3 (Visible in Steps 3, 4, 5) */}
-      {desktopStep >= 3 && (
+      {/* Desktop Popup 3 */}
+      {notifStep >= 3 && (
         <div
           key={`batch-${batchCycle}-c3`}
-          style={currentConstellation[2].style}
+          style={currentDesktopConstellation[2].style}
           className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
         >
           {renderCard(
@@ -371,11 +362,11 @@ export default function Hero({ onOpenForm }) {
         </div>
       )}
 
-      {/* Popup 4 (Visible in Steps 4, 5) */}
-      {desktopStep >= 4 && (
+      {/* Desktop Popup 4 */}
+      {notifStep >= 4 && (
         <div
           key={`batch-${batchCycle}-c4`}
-          style={currentConstellation[3].style}
+          style={currentDesktopConstellation[3].style}
           className="hidden md:flex absolute select-none pointer-events-none transition-all duration-500 z-10"
         >
           {renderCard(
@@ -388,21 +379,75 @@ export default function Hero({ onOpenForm }) {
       )}
 
       {/* =========================================================================
-          MOBILE NOTIFICATION: Subtle, Compact Apple Pill (Never overpowers headline)
+          MOBILE 4 POPUPS:
+          - Appear One-by-One just like PC, floating in safe margins around the headline!
+          - Shorter & ultra-compact pills (Icon + Title only, description/timestamps removed)
+          - All 4 visible on screen, then disappear together simultaneously
           ========================================================================= */}
-      <div
-        key={mobileState.key}
-        className={`md:hidden absolute ${
-          currentMobileSpot.position === 'top' ? 'top-20 sm:top-24' : 'bottom-10 sm:bottom-14'
-        } left-0 right-0 px-4 flex ${currentMobileSpot.align} animate-apple-pop select-none z-10 pointer-events-none`}
-      >
-        {renderCard(
-          allAppleNotifications[mobileState.notifIdx],
-          currentMobileSpot.rotate,
-          true,
-          false
-        )}
-      </div>
+      
+      {/* Mobile Popup 1 (Top Upper Margin) */}
+      {notifStep >= 1 && (
+        <div
+          key={`m-batch-${batchCycle}-c1`}
+          style={currentMobileConstellation[0].style}
+          className="md:hidden absolute select-none pointer-events-none transition-all duration-300 z-10"
+        >
+          {renderCard(
+            allAppleNotifications[(batchOffset + 0) % allAppleNotifications.length],
+            '',
+            true,
+            isExiting
+          )}
+        </div>
+      )}
+
+      {/* Mobile Popup 2 (Top Lower Margin) */}
+      {notifStep >= 2 && (
+        <div
+          key={`m-batch-${batchCycle}-c2`}
+          style={currentMobileConstellation[1].style}
+          className="md:hidden absolute select-none pointer-events-none transition-all duration-300 z-10"
+        >
+          {renderCard(
+            allAppleNotifications[(batchOffset + 1) % allAppleNotifications.length],
+            '',
+            true,
+            isExiting
+          )}
+        </div>
+      )}
+
+      {/* Mobile Popup 3 (Bottom Upper Margin) */}
+      {notifStep >= 3 && (
+        <div
+          key={`m-batch-${batchCycle}-c3`}
+          style={currentMobileConstellation[2].style}
+          className="md:hidden absolute select-none pointer-events-none transition-all duration-300 z-10"
+        >
+          {renderCard(
+            allAppleNotifications[(batchOffset + 2) % allAppleNotifications.length],
+            '',
+            true,
+            isExiting
+          )}
+        </div>
+      )}
+
+      {/* Mobile Popup 4 (Bottom Lower Margin) */}
+      {notifStep >= 4 && (
+        <div
+          key={`m-batch-${batchCycle}-c4`}
+          style={currentMobileConstellation[3].style}
+          className="md:hidden absolute select-none pointer-events-none transition-all duration-300 z-10"
+        >
+          {renderCard(
+            allAppleNotifications[(batchOffset + 3) % allAppleNotifications.length],
+            '',
+            true,
+            isExiting
+          )}
+        </div>
+      )}
 
       {/* =========================================================================
           CENTER STAGE HERO CONTENT
