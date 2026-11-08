@@ -9,8 +9,29 @@ import ReviewGrid from './components/ReviewGrid';
 import LeadCaptureForm from './components/LeadCaptureForm';
 import FaqSection from './components/FaqSection';
 import Footer from './components/Footer';
+import VideoModal from './components/VideoModal';
 
 export default function App() {
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    videoData: null,
+    initialTime: 0,
+    initialMuted: false,
+  });
+
+  const handleOpenModal = (video, time = 0, isMuted = false) => {
+    setModalState({
+      isOpen: true,
+      videoData: video,
+      initialTime: time,
+      initialMuted: isMuted,
+    });
+  };
+
+  const handleCloseModal = () => {
+    setModalState((prev) => ({ ...prev, isOpen: false }));
+  };
+
   const handleOpenForm = () => {
     const el = document.getElementById('apply-form');
     if (el) {
@@ -41,8 +62,11 @@ export default function App() {
         {/* Brand New: Creations / Built Websites Portfolio (Direct click to live sites) */}
         <PortfolioCreations />
 
-        {/* 3 Clean Video Case Study Cards (Inline Playback on all devices with Glassmorphic Controls) */}
-        <VideoTestimonials onOpenForm={handleOpenForm} />
+        {/* 3 Clean Video Case Study Cards (Inline Playback + Fullscreen Glassmorphic Modal) */}
+        <VideoTestimonials
+          onOpenModal={handleOpenModal}
+          onOpenForm={handleOpenForm}
+        />
 
         {/* The Old Way vs The LargerUp Way */}
         <ComparisonTable onOpenForm={handleOpenForm} />
@@ -62,6 +86,16 @@ export default function App() {
 
       {/* Minimalist Inverted Footer */}
       <Footer onOpenForm={handleOpenForm} />
+
+      {/* Minimal & Precise Glassmorphic Modal Video Player */}
+      <VideoModal
+        isOpen={modalState.isOpen}
+        videoData={modalState.videoData}
+        initialTime={modalState.initialTime}
+        initialMuted={modalState.initialMuted}
+        onClose={handleCloseModal}
+        onOpenForm={handleOpenForm}
+      />
 
       {/* Floating WhatsApp Action (Icon Only on All Devices) */}
       <a

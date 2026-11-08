@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, X, ArrowUpRight } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Maximize2, ArrowUpRight } from 'lucide-react';
 
 export const videoCaseStudies = [
   {
@@ -31,11 +31,14 @@ export const videoCaseStudies = [
   },
 ];
 
-function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop }) {
+function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop, onOpenModal }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [isSeeking, setIsSeeking] = useState(false);
+  const [controlsVisible, setControlsVisible] = useState(true);
+  const hideTimeoutRef = useRef(null);
 
   const isActive = activeVideoId === item.id;
 
@@ -46,14 +49,26 @@ function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop }) {
       videoRef.current.currentTime = 0;
       setIsPlaying(false);
       setProgress(0);
+      setControlsVisible(true);
     }
   }, [isActive]);
+
+  const triggerControlsVisibility = () => {
+    setControlsVisible(true);
+    if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    hideTimeoutRef.current = setTimeout(() => {
+      if (videoRef.current && !videoRef.current.paused) {
+        setControlsVisible(false);
+      }
+    }, 2200);
+  };
 
   const handleStartPlay = () => {
     onPlay(item.id);
     if (videoRef.current) {
       videoRef.current.play().then(() => {
         setIsPlaying(true);
+        triggerControlsVisibility();
       }).catch(() => {
         // Fallback for strict browser autoplay policies
         if (videoRef.current) {
@@ -61,6 +76,7 @@ function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop }) {
           setIsMuted(true);
           videoRef.current.play().then(() => {
             setIsPlaying(true);
+            triggerControlsVisibility();
           });
         }
       });
@@ -73,9 +89,11 @@ function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop }) {
     if (videoRef.current.paused) {
       videoRef.current.play();
       setIsPlaying(true);
+      triggerControlsVisibility();
     } else {
       videoRef.current.pause();
       setIsPlaying(false);
+      setControlsVisible(true);
     }
   };
 
@@ -84,29 +102,40 @@ function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop }) {
     if (!videoRef.current) return;
     videoRef.current.muted = !videoRef.current.muted;
     setIsMuted(videoRef.current.muted);
-  };
-
-  const handleClose = (e) => {
-    e.stopPropagation();
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-    setIsPlaying(false);
-    setProgress(0);
-    onStop();
+    triggerControlsVisibility();
   };
 
   const handleTimeUpdate = () => {
-    if (videoRef.current && videoRef.current.duration) {
+    if (!isSeeking && videoRef.current && videoRef.current.duration) {
       const pct = (videoRef.current.currentTime / videoRef.current.duration) * 100;
       setProgress(pct);
     }
   };
 
+  const handleScrubberChange = (e) => {
+    e.stopPropagation();
+    const val = parseFloat(e.target.value);
+    setProgress(val);
+    if (videoRef.current && videoRef.current.duration) {
+      videoRef.current.currentTime = (val / 100) * videoRef.current.duration;
+    }
+    triggerControlsVisibility();
+  };
+
+  const handleOpenFullscreenModal = (e) => {
+    e.stopPropagation();
+    const curTime = videoRef.current ? videoRef.current.currentTime : 0;
+    if (videoRef.current) {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+    onOpenModal(item, curTime, isMuted);
+  };
+
   const handleEnded = () => {
     setIsPlaying(false);
     setProgress(0);
+    setControlsVisible(true);
     onStop();
   };
 
@@ -157,13 +186,13 @@ function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop }) {
             {/* Dark gradient overlay for contrast */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/30 pointer-events-none" />
 
-            {/* Clean top space - timers removed as requested */}
+            {/* Clean top space */}
             <div className="relative z-10 h-4" />
 
-            {/* Center Premium Glassmorphic Play Button */}
+            {/* Center Premium Glassmorphic Play Button (Refined for Mobile & PC) */}
             <div className="relative z-10 self-center my-auto">
-              <div className="w-13 h-13 sm:w-16 sm:h-16 rounded-full backdrop-blur-xl bg-white/25 hover:bg-white/35 border border-white/40 text-white flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.37)] group-hover:scale-110 active:scale-95 transition-all duration-300">
-                <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-white text-white ml-0.5 drop-shadow" />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-2xl bg-black/45 hover:bg-black/60 border border-white/40 text-white flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.6)] group-hover:scale-110 active:scale-95 transition-all duration-300">
+                <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-white text-white translate-x-0.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
               </div>
             </div>
 
@@ -183,13 +212,18 @@ function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop }) {
         {isActive && (
           <div
             onClick={handleTogglePlayPause}
+            onMouseMove={triggerControlsVisibility}
             className="absolute inset-0 z-20 flex flex-col justify-between p-3 sm:p-4 cursor-pointer"
           >
-            {/* Top Control Bar: Mute Toggle & Close Button */}
-            <div className="flex items-center justify-between w-full relative z-30">
+            {/* Top Control Bar: Mute Toggle (Left) & Full Screen Button (Right - Replaced Cross Button) */}
+            <div
+              className={`flex items-center justify-between w-full relative z-30 transition-opacity duration-300 ${
+                controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+            >
               <button
                 onClick={handleToggleMute}
-                className="w-8 h-8 rounded-full backdrop-blur-xl bg-black/45 hover:bg-black/65 border border-white/25 text-white flex items-center justify-center transition-all active:scale-90 shadow-md"
+                className="w-8 h-8 rounded-full backdrop-blur-xl bg-black/50 hover:bg-black/75 border border-white/25 text-white flex items-center justify-center transition-all active:scale-90 shadow-md"
                 title={isMuted ? 'Unmute' : 'Mute'}
                 aria-label={isMuted ? 'Unmute' : 'Mute'}
               >
@@ -200,44 +234,79 @@ function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop }) {
                 )}
               </button>
 
+              {/* Fullscreen Button replacing Cross Button */}
               <button
-                onClick={handleClose}
-                className="w-8 h-8 rounded-full backdrop-blur-xl bg-black/45 hover:bg-black/65 border border-white/25 text-white flex items-center justify-center transition-all active:scale-90 shadow-md"
-                title="Close video"
-                aria-label="Close video"
+                onClick={handleOpenFullscreenModal}
+                className="w-8 h-8 rounded-full backdrop-blur-xl bg-black/50 hover:bg-black/75 border border-white/25 text-white flex items-center justify-center transition-all hover:scale-105 active:scale-90 shadow-md"
+                title="Open fullscreen player"
+                aria-label="Open fullscreen player"
               >
-                <X className="w-4 h-4 text-white" />
+                <Maximize2 className="w-4 h-4 text-white" />
               </button>
             </div>
 
-            {/* Center Premium Glassmorphic Play/Pause Button (Shows on hover or when paused) */}
+            {/* Center Premium Glassmorphic Play/Pause Button (Shows on pause or tap/hover, fades out while playing) */}
             <div
+              onClick={handleTogglePlayPause}
               className={`self-center my-auto transition-all duration-300 ${
-                isPlaying
-                  ? 'opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 pointer-events-none'
-                  : 'opacity-100 scale-100'
+                !isPlaying || controlsVisible
+                  ? 'opacity-100 scale-100'
+                  : 'opacity-0 scale-95 pointer-events-none'
               }`}
             >
-              <div className="w-13 h-13 sm:w-16 sm:h-16 rounded-full backdrop-blur-xl bg-white/25 hover:bg-white/35 border border-white/40 text-white flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.45)] transition-transform">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full backdrop-blur-2xl bg-black/45 hover:bg-black/60 border border-white/40 text-white flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.6)] transition-transform hover:scale-110 active:scale-95">
                 {isPlaying ? (
-                  <Pause className="w-5 h-5 sm:w-6 sm:h-6 fill-white text-white drop-shadow" />
+                  <Pause className="w-5 h-5 sm:w-6 sm:h-6 fill-white text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
                 ) : (
-                  <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-white text-white ml-0.5 drop-shadow" />
+                  <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-white text-white translate-x-0.5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
                 )}
               </div>
             </div>
 
-            {/* Bottom Progress Bar & Subtle Info */}
-            <div className="relative z-30 w-full pt-2">
-              <div className="flex items-center justify-between text-white/90 text-[10px] sm:text-xs mb-1.5 font-medium px-0.5 drop-shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">
+            {/* Bottom Floating Area: Interactive Timeline Scrubber (Pulling filler seeks video - No timers) */}
+            <div
+              className={`relative z-30 w-full pt-2 transition-opacity duration-300 ${
+                controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <div className="flex items-center justify-between text-white/90 text-[10px] sm:text-xs mb-1 font-medium px-0.5 drop-shadow-sm">
                 <span>{item.studio}</span>
                 <span>{item.location}</span>
               </div>
-              {/* Minimal Progress Line */}
-              <div className="w-full h-1 bg-white/25 rounded-full overflow-hidden backdrop-blur-xs">
+
+              {/* Interactive Scrubber Container */}
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full py-2 flex items-center group/scrubber cursor-pointer"
+              >
+                {/* Visual Track */}
+                <div className="w-full h-1 group-hover/scrubber:h-1.5 bg-white/25 rounded-full overflow-hidden backdrop-blur-xs transition-all">
+                  <div
+                    className="h-full bg-white rounded-full transition-none"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+
+                {/* Glowing Thumb that follows progress */}
                 <div
-                  className="h-full bg-white transition-[width] duration-150 ease-linear rounded-full"
-                  style={{ width: `${progress}%` }}
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)] pointer-events-none transition-all duration-75"
+                  style={{ left: `${progress}%` }}
+                />
+
+                {/* Range Input for Smooth Dragging & Seeking on Touch + Mouse */}
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                  value={progress}
+                  onMouseDown={() => setIsSeeking(true)}
+                  onMouseUp={() => setIsSeeking(false)}
+                  onTouchStart={() => setIsSeeking(true)}
+                  onTouchEnd={() => setIsSeeking(false)}
+                  onChange={handleScrubberChange}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  aria-label="Seek timeline"
                 />
               </div>
             </div>
@@ -248,7 +317,7 @@ function VideoCard({ item, isFirst, activeVideoId, onPlay, onStop }) {
   );
 }
 
-export default function VideoTestimonials({ onOpenForm }) {
+export default function VideoTestimonials({ onOpenModal, onOpenForm }) {
   const [activeVideoId, setActiveVideoId] = useState(null);
 
   const handlePlay = (id) => {
@@ -271,7 +340,7 @@ export default function VideoTestimonials({ onOpenForm }) {
       {/* 3 Vertical 9:16 Video Cards
           Mobile Layout: Triangle formation (Luxihome centered on top, The Alam Interior & Deco Perfect below it side-by-side)
           Desktop Layout: Balanced 3-column row
-          Playback: Direct inline playback with premium glassmorphic controls on all devices
+          Controls: Direct inline playback with interactive scrubber and fullscreen modal trigger
       */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-6 mb-10 sm:mb-14 max-w-4xl mx-auto items-start">
         {videoCaseStudies.map((item, idx) => (
@@ -282,6 +351,7 @@ export default function VideoTestimonials({ onOpenForm }) {
             activeVideoId={activeVideoId}
             onPlay={handlePlay}
             onStop={handleStop}
+            onOpenModal={onOpenModal}
           />
         ))}
       </div>
