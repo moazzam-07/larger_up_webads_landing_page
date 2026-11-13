@@ -46,15 +46,18 @@ export default function LeadCaptureForm() {
         source: 'LargerUp Landing Page',
       };
 
-      const webhookUrl = localStorage.getItem('LARGERUP_LEAD_WEBHOOK');
-      if (webhookUrl) {
-        await fetch(webhookUrl, {
+      const res = await fetch(
+        'https://moazzammasood5--largerup-lead-webhook-submit-lead.us-east.modal.run',
+        {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
-        });
-      } else {
-        await new Promise((resolve) => setTimeout(resolve, 800));
+        }
+      );
+
+      const result = await res.json();
+      if (!result.success) {
+        throw new Error(result.error || 'Submission failed');
       }
 
       setStatus('success');
