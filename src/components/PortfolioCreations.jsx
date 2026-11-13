@@ -14,7 +14,7 @@ export const portfolioProjects = [
   {
     id: 'da-interiors',
     name: 'DA Interiors',
-    url: 'https://dainterior.in',
+    url: 'https://da-interiors.vercel.app/',
     category: 'Bespoke Luxury Living',
     location: 'Kolkata',
     image: '/portfolio/portfolio-2.png',
