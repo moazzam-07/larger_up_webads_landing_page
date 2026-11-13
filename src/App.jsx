@@ -99,7 +99,7 @@ export default function App() {
 
       {/* Floating WhatsApp Action (Icon Only on All Devices) */}
       <a
-        href="https://wa.me/917980817657?text=Hi%20LargerUp%20team,%20I%20came%20from%20your%20landing%20page.%20I%20want%20to%20get%20website%20and%20leads."
+        href="https://wa.me/917980817657?text=Hi%20LargerUp%20team,%20I%20came%20from%20your%20landing%20page.%20I%20would%20like%20to%20know%20more%20about%20this!"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 w-11 h-11 sm:w-12 sm:h-12 bg-ink hover:bg-ink-soft text-white rounded-full border border-white/15 shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 group"
