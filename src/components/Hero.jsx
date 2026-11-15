@@ -167,12 +167,7 @@ const MOBILE_CONSTELLATIONS = [
   ],
 ];
 
-const DYNAMIC_TIME_WORDS = ['month.', 'week.', 'day.', 'hour.'];
-
 export default function Hero({ onOpenForm }) {
-  // Dynamic headline flipping word index (month -> week -> day -> hour -> month)
-  const [wordIdx, setWordIdx] = useState(0);
-
   // 4 Notifications sequence state (Unified for both Desktop & Mobile):
   // Step 1: Card 1 enters in its unique location
   // Step 2: Card 2 enters in its unique location
@@ -217,15 +212,6 @@ export default function Hero({ onOpenForm }) {
 
     return () => clearTimeout(timerId);
   }, [notifStep]);
-
-  // Headline Word Flip Interval
-  useEffect(() => {
-    const wordInterval = setInterval(() => {
-      setWordIdx((prev) => (prev + 1) % DYNAMIC_TIME_WORDS.length);
-    }, 2600);
-
-    return () => clearInterval(wordInterval);
-  }, []);
 
   const renderAppIcon = (app, isMobile = false) => {
     const containerClass = isMobile
@@ -451,37 +437,30 @@ export default function Hero({ onOpenForm }) {
 
       {/* =========================================================================
           CENTER STAGE HERO CONTENT
-          - Headline: Massive & Bold on Mobile, Commanding on Desktop
-          - Dynamic word ("month.") perfectly aligned to straight text baseline
+          - Headline: "Get a Professional Website for Your Interior Design Business."
+          - Subtitle: "Showcase your projects, build trust, and turn potential clients into enquiries."
+          - Primary CTA: "Get My Website for ₹7,000 ↗" (Scrolls to enquiry form)
           ========================================================================= */}
-      <div className="max-w-[340px] xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto flex flex-col items-center relative z-20 px-1 sm:px-4">
+      <div className="max-w-[340px] xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto flex flex-col items-center relative z-20 px-1 sm:px-4 text-center">
         
-        {/* Dominant Headline: Clear Primary Focus */}
-        <h1 className="text-[42px] xs:text-[48px] sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[80px] font-black text-ink tracking-tight leading-[1.03] sm:leading-[1.06] mb-5 sm:mb-8 animate-blur-in delay-150">
-          Get high-ticket interior clients every{' '}
-          <span className="word-flip-container">
-            {/* Invisible sizer anchor frozen to widest word ('month.') guaranteeing 0px line movement */}
-            <span className="word-flip-sizer" aria-hidden="true">
-              month.
-            </span>
-            {/* Active dynamic flipping word */}
-            <span
-              key={`headline-word-${wordIdx}`}
-              className="word-flip-item animate-word-flip text-ink"
-            >
-              {DYNAMIC_TIME_WORDS[wordIdx]}
-            </span>
-          </span>
+        {/* Dominant Headline */}
+        <h1 className="text-[34px] xs:text-[40px] sm:text-5xl md:text-6xl lg:text-[68px] xl:text-[76px] font-black text-ink tracking-tight leading-[1.08] sm:leading-[1.08] mb-3.5 sm:mb-5 animate-blur-in delay-150">
+          Get a Professional Website for Your Interior Design Business.
         </h1>
+
+        {/* Subtitle / Description */}
+        <p className="text-sm xs:text-base sm:text-lg md:text-xl text-muted font-normal max-w-xl mx-auto mb-6 sm:mb-8 leading-relaxed animate-blur-in delay-200">
+          Showcase your projects, build trust, and turn potential clients into enquiries.
+        </p>
 
         {/* Primary CTA Button */}
         <div className="w-full flex justify-center animate-blur-in delay-300">
           <button
             onClick={onOpenForm}
-            className="bg-ink hover:bg-ink-soft text-white text-xs sm:text-base font-semibold px-6 sm:px-10 py-2.5 sm:py-3.5 rounded-full transition-all inline-flex items-center justify-center gap-1.5 sm:gap-2 active:scale-95 shadow-md hover:shadow-xl hover:scale-105"
+            className="bg-ink hover:bg-ink-soft text-white text-xs sm:text-base font-semibold px-6 sm:px-10 py-3 sm:py-3.5 rounded-full transition-all inline-flex items-center justify-center gap-1.5 sm:gap-2 active:scale-95 shadow-md hover:shadow-xl hover:scale-105"
           >
-            <span>Free Consultation</span>
-            <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/80" />
+            <span>Get My Website for ₹7,000</span>
+            <ArrowUpRight className="w-4 h-4 text-white/80" />
           </button>
         </div>
 
