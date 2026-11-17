@@ -452,7 +452,7 @@ export default function Hero({ onOpenForm }) {
             onClick={onOpenForm}
             className="bg-ink hover:bg-ink-soft text-white text-xs sm:text-base font-semibold px-7 sm:px-11 py-3.5 sm:py-4 rounded-full transition-all inline-flex items-center justify-center gap-1.5 sm:gap-2 active:scale-95 shadow-lg hover:shadow-2xl hover:scale-105"
           >
-            <span>Get My Website</span>
+            <span>Get My Interior Website</span>
             <ArrowUpRight className="w-4 h-4 text-white/80" />
           </button>
         </div>
